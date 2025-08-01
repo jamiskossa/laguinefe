@@ -1,289 +1,1988 @@
-// Attendre que le DOM soit chargé
-document.addEventListener('DOMContentLoaded', function() {
-    // Navigation mobile
-    const menuToggle = document.getElementById('menu-toggle');
-    const menuClose = document.getElementById('menu-close');
-    const mobileMenu = document.getElementById('mobile-menu');
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaGuinèFé - Mouvement Patriotique</title>
+    <meta name="description" content="LaGuinèFé est un mouvement citoyen engagé pour le développement et la prospérité de la Guinée.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
-    if (menuToggle && menuClose && mobileMenu) {
-        menuToggle.addEventListener('click', function() {
-            mobileMenu.classList.remove('menu-closed');
-            mobileMenu.classList.add('menu-open');
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+
+        :root {
+            --color-red: #E4002B; /* Rouge (couleur de la Guinée) */
+            --color-yellow: #F7D81C; /* Jaune (couleur de la Guinée) */
+            --color-green: #009444; /* Vert (couleur de la Guinée) */
+            --color-white: #FFFFFF; /* Blanc */
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--color-green), var(--color-yellow), var(--color-red));
+        }
+
+        .menu-open {
+            transform: translateX(0);
+        }
+
+        .menu-closed {
+            transform: translateX(100%);
+        }
+
+        .masonry-grid {
+            column-count: 3;
+            column-gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .masonry-grid {
+                column-count: 1;
+            }
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+
+        .backdrop-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 148, 68, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(0, 148, 68, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 148, 68, 0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        #home {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+
+        .swiper-slide {
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .testimonial-slide {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-thumbnail {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .video-thumbnail:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal {
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Animation pour les éléments au scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Aspect ratio pour les vidéos */
+        .aspect-w-16 {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+        }
+
+        .aspect-w-16 iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Animation pour le logo */
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rotate-animation {
+            animation: rotate 20s linear infinite;
+        }
+
+        /* Animation pour les boutons */
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-hover-effect:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-hover-effect:hover:after {
+            left: 100%;
+        }
+
+        /* Style pour le menu toggle */
+        #menu-toggle {
+            z-index: 60;
+        }
+
+        /* Style pour le logo photo */
+        .logo-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/+224612345678" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <!-- Header & Navigation -->
+    <header class="fixed w-full z-50">
+        <nav class="bg-white/80 backdrop-blur shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Flag_of_Guinea.svg/1200px-Flag_of_Guinea.svg.png" alt="Logo LaGuinèFé" class="logo-photo">
+                            <span class="text-xl font-bold text-gray-900">LaGuinèFé</span>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                        <a href="#home" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Accueil</a>
+                        <a href="#about" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">À propos</a>
+                        <a href="#actions" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Nos actions</a>
+                        <a href="#join" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Rejoindre</a>
+                        <a href="#news" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Actualités</a>
+                        <a href="#contact" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <div class="-mr-2 flex items-center md:hidden">
+                        <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500" aria-expanded="false">
+                            <span class="sr-only">Menu</span>
+                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="menu-closed md:hidden fixed inset-y-0 right-0 w-64 bg-white/90 backdrop-blur shadow-lg transform transition-transform duration-300 ease-in-out">
+                <div class="px-5 pt-5 pb-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Flag_of_Guinea.svg/1200px-Flag_of_Guinea.svg.png" alt="Logo LaGuinèFé" class="logo-photo">
+                            <span class="ml-2 text-xl font-bold text-gray-900">LaGuinèFé</span>
+                        </div>
+                        <button id="menu-close" type="button" class="rounded-md p-2 inline-flex items-center justify-center text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500">
+                            <span class="sr-only">Close menu</span>
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mt-6">
+                        <nav class="grid gap-y-4">
+                            <a href="#home" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                                <i class="fas fa-home mr-3 text-green-600"></i> Accueil
+                            </a>
+                            <a href="#about" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                                <i class="fas fa-info-circle mr-3 text-green-600"></i> À propos
+                            </a>
+                            <a href="#actions" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                                <i class="fas fa-hands-helping mr-3 text-green-600"></i> Nos actions
+                            </a>
+                            <a href="#join" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                                <i class="fas fa-user-plus mr-3 text-green-600"></i> Rejoindre
+                            </a>
+                            <a href="#news" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                                <i class="fas fa-newspaper mr-3 text-green-600"></i> Actualités
+                            </a>
+                            <a href="#contact" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                                <i class="fas fa-envelope mr-3 text-green-600"></i> Contact
+                            </a>
+                        </nav>
+                    </div>
+                    <!-- Social Media in Mobile Menu -->
+                    <div class="mt-8 pt-4 border-t border-gray-200">
+                        <div class="flex justify-center space-x-4">
+                            <a href="#" class="text-gray-500 hover:text-green-600">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="text-gray-500 hover:text-green-600">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-gray-500 hover:text-green-600">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="text-gray-500 hover:text-green-600">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="text-gray-500 hover:text-green-600">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Home Section -->
+    <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                <span class="text-green-600">LaGuinèFé</span> - Un avenir meilleur pour notre pays
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto mb-8">
+                Rejoignez le mouvement patriotique de soutien au Général président Mamadi Doumbouya, nous souhaitons œuvrer pour le développement et la prospérité de la Guinée.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#join" class="px-8 py-3 bg-gradient-to-r from-green-600 to-red-600 text-white font-medium rounded-lg hover:from-green-700 hover:to-red-700 transition-colors pulse-animation btn-hover-effect">
+                    Rejoignez-nous
+                </a>
+                <a href="#actions" class="px-8 py-3 bg-white text-green-600 font-medium rounded-lg hover:bg-gray-100 transition-colors border border-green-600 btn-hover-effect">
+                    Nos actions
+                </a>
+            </div>
+        </div>
+
+        <!-- Banner Slideshow -->
+        <div class="mt-16 swiper-container fade-in">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide rounded-xl overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80')">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div class="text-center text-white px-4">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4">Solidarité Nationale</h2>
+                            <p class="text-lg md:text-xl max-w-2xl mx-auto">Ensemble, nous pouvons construire une Guinée meilleure pour tous.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide rounded-xl overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div class="text-center text-white px-4">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4">Éducation pour tous</h2>
+                            <p class="text-lg md:text-xl max-w-2xl mx-auto">Investir dans l'éducation, c'est investir dans l'avenir de notre nation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide rounded-xl overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80')">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div class="text-center text-white px-4">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4">Développement économique</h2>
+                            <p class="text-lg md:text-xl max-w-2xl mx-auto">Promouvoir une économie forte et durable pour tous les Guinéens.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ajout d'une nouvelle slide -->
+                <div class="swiper-slide rounded-xl overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div class="text-center text-white px-4">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4">Santé pour tous</h2>
+                            <p class="text-lg md:text-xl max-w-2xl mx-auto">Améliorer l'accès aux soins de santé pour chaque citoyen guinéen.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <!-- Quick Presentation -->
+        <div class="mt-16 grid md:grid-cols-2 gap-12 items-center">
+            <div class="fade-in">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Qui sommes-nous ?</h2>
+                <p class="text-gray-700 mb-4">
+                    LaGuinèFé est un mouvement citoyen né de la volonté de contribuer au développement harmonieux de notre pays. Nous croyons en une Guinée unie, prospère et respectueuse de ses valeurs.
+                </p>
+                <p class="text-gray-700 mb-4">
+                    Notre mouvement rassemble des hommes et des femmes de toutes les régions, de toutes les ethnies et de toutes les couches sociales, unis par un même idéal : bâtir une nation forte et fière.
+                </p>
+                <p class="text-gray-700">
+                    Nous voulons œuvrer à travers des actions concrètes dans les domaines de l'éducation, la santé, l'environnement et le développement économique local.
+                </p>
+                <!-- Ajout de boutons d'action -->
+                <div class="mt-6 flex flex-wrap gap-4">
+                    <a href="#about" class="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors">
+                        <i class="fas fa-info-circle mr-2"></i> En savoir plus
+                    </a>
+                    <a href="#join" class="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors">
+                        <i class="fas fa-user-plus mr-2"></i> Nous rejoindre
+                    </a>
+                </div>
+            </div>
+            <div class="relative fade-in">
+                <div class="w-full h-80 bg-gradient-to-r from-green-600 to-red-600 rounded-xl overflow-hidden flex items-center justify-center">
+                    <div class="text-white text-center p-6">
+                        <div class="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Plus de <span class="counter" data-target="10000">0</span> membres</h3>
+                        <p class="text-white/90">Rejoignez notre communauté grandissante</p>
+                    </div>
+                </div>
+                <!-- Badges flottants -->
+                <div class="absolute -top-4 -right-4 bg-yellow-500 text-white rounded-full px-4 py-2 shadow-lg animate-bounce">
+                    <span class="font-bold">Nouveau !</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-100 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">À propos de LaGuinèFé</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Notre histoire</h3>
+                    <p class="text-gray-700 mb-4">
+                        Fondé en 2025 par un groupe de jeunes Guinéens résident à Paris, déterminés à apporter un changement positif dans leur pays, LaGuinèFé est rapidement devenu un mouvement national rassemblant des milliers de citoyens engagés.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                        Le nom "LaGuinèFé" est une contraction de "La Guinée Fière", reflétant notre vision d'une nation unie, prospère et respectée sur la scène internationale.
+                    </p>
+                    <p class="text-gray-700">
+                        Depuis nos débuts modestes, nous avons mené des centaines d'actions dans tout le pays, touchant des milliers de vies et inspirant une nouvelle génération de leaders.
+                    </p>
+                    <!-- Timeline -->
+                    <div class="mt-8 relative border-l-2 border-green-600 pl-6">
+                        <div class="mb-6 relative">
+                            <div class="absolute -left-9 w-4 h-4 rounded-full bg-green-600"></div>
+                            <h4 class="font-bold text-gray-900">2025</h4>
+                            <p class="text-gray-700">Fondation du mouvement LaGuinèFé</p>
+                        </div>
+                        <div class="mb-6 relative">
+                            <div class="absolute -left-9 w-4 h-4 rounded-full bg-green-600"></div>
+                            <h4 class="font-bold text-gray-900">2025</h4>
+                            <p class="text-gray-700">Première campagne nationale d'éducation</p>
+                        </div>
+                        <div class="mb-6 relative">
+                            <div class="absolute -left-9 w-4 h-4 rounded-full bg-green-600"></div>
+                            <h4 class="font-bold text-gray-900">2025</h4>
+                            <p class="text-gray-700">Expansion dans toutes les régions de Guinée</p>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute -left-9 w-4 h-4 rounded-full bg-green-600"></div>
+                            <h4 class="font-bold text-gray-900">2025</h4>
+                            <p class="text-gray-700">Lancement de projets économiques communautaires</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Nos objectifs</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Promouvoir l'unité nationale</h4>
+                                <p class="text-gray-700">Au-delà des divisions ethniques, religieuses ou régionales.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Défendre les valeurs démocratiques</h4>
+                                <p class="text-gray-700">Respect des droits humains, justice sociale et bonne gouvernance.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Contribuer au développement</h4>
+                                <p class="text-gray-700">Par des actions concrètes dans l'éducation, la santé et l'économie.</p>
+                            </div>
+                        </div>
+                        <!-- Nouvel objectif -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Préserver l'environnement</h4>
+                                <p class="text-gray-700">Sensibilisation et actions pour la protection de notre écosystème.</p>
+                            </div>
+                        </div>
+                        <!-- Nouvel objectif -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Autonomiser les femmes et les jeunes</h4>
+                                <p class="text-gray-700">Programmes spécifiques pour l'émancipation économique et sociale.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistiques -->
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                            <div class="text-3xl font-bold text-green-600 counter" data-target="250">0</div>
+                            <p class="text-gray-700">Actions réalisées</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                            <div class="text-3xl font-bold text-green-600 counter" data-target="32">0</div>
+                            <p class="text-gray-700">Préfectures couvertes</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                            <div class="text-3xl font-bold text-green-600 counter" data-target="15000">0</div>
+                            <p class="text-gray-700">Bénéficiaires directs</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                            <div class="text-3xl font-bold text-green-600 counter" data-target="45">0</div>
+                            <p class="text-gray-700">Partenaires</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Founder & Team -->
+            <div class="mt-16 fade-in">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">Notre équipe</h3>
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <!-- Founder -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                        <div class="h-48 bg-gradient-to-r from-green-600 to-red-600 flex items-center justify-center">
+                            <div class="w-24 h-24 rounded-full bg-white/20 border-4 border-white flex items-center justify-center">
+                                <i class="fas fa-user-tie text-3xl text-white"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-bold text-lg text-gray-900">Yattara Ousmane</h4>
+                            <p class="text-green-600 font-medium">Fondateur</p>
+                            <p class="text-gray-700 mt-2">Visionnaire et entrepreneur social engagé pour le développement de la Guinée.</p>
+                            <!-- Réseaux sociaux -->
+                            <div class="mt-4 flex space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Members -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                        <div class="h-48 bg-gradient-to-r from-red-600 to-yellow-500 flex items-center justify-center">
+                            <div class="w-24 h-24 rounded-full bg-white/20 border-4 border-white flex items-center justify-center">
+                                <i class="fas fa-user-graduate text-3xl text-white"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-bold text-lg text-gray-900">Baba Saidou Kourouma</h4>
+                            <p class="text-green-600 font-medium">Coordinateur Éducation</p>
+                            <p class="text-gray-700 mt-2">Spécialiste en pédagogie et développement des compétences.</p>
+                            <!-- Réseaux sociaux -->
+                            <div class="mt-4 flex space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                        <div class="h-48 bg-gradient-to-r from-yellow-500 to-green-600 flex items-center justify-center">
+                            <div class="w-24 h-24 rounded-full bg-white/20 border-4 border-white flex items-center justify-center">
+                                <i class="fas fa-briefcase-medical text-3xl text-white"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-bold text-lg text-gray-900">Daouda Camara</h4>
+                            <p class="text-green-600 font-medium">Responsable Santé</p>
+                            <p class="text-gray-700 mt-2">Médecin engagé dans l'amélioration du système de santé guinéen.</p>
+                            <!-- Réseaux sociaux -->
+                            <div class="mt-4 flex space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                        <div class="h-48 bg-gradient-to-r from-green-600 to-yellow-500 flex items-center justify-center">
+                            <div class="w-24 h-24 rounded-full bg-white/20 border-4 border-white flex items-center justify-center">
+                                <i class="fas fa-chart-line text-3xl text-white"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-bold text-lg text-gray-900">Fatoumata Binta Barry</h4>
+                            <p class="text-green-600 font-medium">Responsable Économie</p>
+                            <p class="text-gray-700 mt-2">Économiste spécialisée dans le développement local.</p>
+                            <!-- Réseaux sociaux -->
+                            <div class="mt-4 flex space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-green-600">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouton pour voir toute l'équipe -->
+                <div class="text-center mt-8">
+                    <a href="#" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-red-600 text-white font-medium rounded-lg hover:from-green-700 hover:to-red-700 transition-colors btn-hover-effect">
+                        <i class="fas fa-users mr-2"></i> Voir toute l'équipe
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Actions Section -->
+    <section id="actions" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center mb-12 fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Nos actions</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 mx-auto mt-4"></div>
+        </div>
+
+        <!-- Events -->
+        <div class="mb-16 fade-in">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Événements à venir</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Event 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                    <div class="h-48 bg-gradient-to-r from-green-600 to-red-600 flex items-center justify-center text-white">
+                        <i class="fas fa-calendar-alt text-6xl opacity-30"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-2">
+                            <i class="far fa-calendar-alt mr-2"></i>
+                            <span>15 Juin 2025</span>
+                            <i class="far fa-clock ml-4 mr-2"></i>
+                            <span>09:00 - 17:00</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-900 mb-2">Forum sur l'éducation</h4>
+                        <p class="text-gray-700 mb-4">Discussion sur les réformes éducatives nécessaires pour une Guinée compétitive.</p>
+                        <div class="flex justify-between items-center">
+                            <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                                En savoir plus <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Conakry</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                    <div class="h-48 bg-gradient-to-r from-red-600 to-yellow-500 flex items-center justify-center text-white">
+                        <i class="fas fa-hands-helping text-6xl opacity-30"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-2">
+                            <i class="far fa-calendar-alt mr-2"></i>
+                            <span>22 Juin 2025</span>
+                            <i class="far fa-clock ml-4 mr-2"></i>
+                            <span>08:00 - 12:00</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-900 mb-2">Journée de nettoyage</h4>
+                        <p class="text-gray-700 mb-4">Action citoyenne pour un environnement propre dans la capitale.</p>
+                        <div class="flex justify-between items-center">
+                            <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                                En savoir plus <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Conakry</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                    <div class="h-48 bg-gradient-to-r from-yellow-500 to-green-600 flex items-center justify-center text-white">
+                        <i class="fas fa-chalkboard-teacher text-6xl opacity-30"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-2">
+                            <i class="far fa-calendar-alt mr-2"></i>
+                            <span>30 Juin 2025</span>
+                            <i class="far fa-clock ml-4 mr-2"></i>
+                            <span>10:00 - 15:00</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-900 mb-2">Formation des jeunes</h4>
+                        <p class="text-gray-700 mb-4">Ateliers pratiques pour développer des compétences professionnelles.</p>
+                        <div class="flex justify-between items-center">
+                            <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                                En savoir plus <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Kankan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton pour voir tous les événements -->
+            <div class="text-center mt-8">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-green-600 text-green-600 font-medium rounded-lg hover:bg-green-50 transition-colors">
+                    <i class="fas fa-calendar-alt mr-2"></i> Voir tous les événements
+                </a>
+            </div>
+        </div>
+
+        <!-- Photo Gallery -->
+        <div class="mb-16 fade-in">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Galerie photo</h3>
+            <div class="masonry-grid">
+                <!-- Masonry items -->
+                <div class="masonry-item">
+                    <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Action sociale" class="w-full h-auto rounded-lg shadow hover:shadow-lg transition-shadow">
+                </div>
+                <div class="masonry-item">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Éducation" class="w-full h-auto rounded-lg shadow hover:shadow-lg transition-shadow">
+                </div>
+                <div class="masonry-item">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Développement" class="w-full h-auto rounded-lg shadow hover:shadow-lg transition-shadow">
+                </div>
+                <div class="masonry-item">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Communauté" class="w-full h-auto rounded-lg shadow hover:shadow-lg transition-shadow">
+                </div>
+                <div class="masonry-item">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Jeunesse" class="w-full h-auto rounded-lg shadow hover:shadow-lg transition-shadow">
+                </div>
+                <div class="masonry-item">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Travail d'équipe" class="w-full h-auto rounded-lg shadow hover:shadow-lg transition-shadow">
+                </div>
+                <!-- Nouvelles images -->
+                <div class="masonry-item">
+                    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Éducation des enfants" class="w-full h-auto rounded-lg shadow hover:shadow-lg transition-shadow">
+                </div>
+                <div class="masonry-item">
+                    <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Santé communautaire" class="w-full h-auto rounded-lg shadow hover:shadow-lg transition-shadow">
+                </div>
+            </div>
+
+            <!-- Bouton pour voir toutes les photos -->
+            <div class="text-center mt-8">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-green-600 text-green-600 font-medium rounded-lg hover:bg-green-50 transition-colors">
+                    <i class="fas fa-images mr-2"></i> Voir toutes les photos
+                </a>
+            </div>
+        </div>
+
+        <!-- Video Gallery -->
+        <div class="mb-16 fade-in">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Galerie vidéo</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Video 1 -->
+                <div class="video-thumbnail rounded-xl overflow-hidden shadow-md cursor-pointer" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Vidéo 1" class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
+                                <i class="fas fa-play text-3xl text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h4 class="font-medium text-gray-900">Notre mission expliquée</h4>
+                        <p class="text-sm text-gray-600">2:45 min</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-thumbnail rounded-xl overflow-hidden shadow-md cursor-pointer" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1492571350019-22de08371fd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1453&q=80" alt="Vidéo 2" class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
+                                <i class="fas fa-play text-3xl text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h4 class="font-medium text-gray-900">Témoignages de membres</h4>
+                        <p class="text-sm text-gray-600">4:12 min</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-thumbnail rounded-xl overflow-hidden shadow-md cursor-pointer" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Vidéo 3" class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
+                                <i class="fas fa-play text-3xl text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h4 class="font-medium text-gray-900">Action communautaire</h4>
+                        <p class="text-sm text-gray-600">3:28 min</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton pour voir toutes les vidéos -->
+            <div class="text-center mt-8">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-green-600 text-green-600 font-medium rounded-lg hover:bg-green-50 transition-colors">
+                    <i class="fas fa-video mr-2"></i> Voir toutes les vidéos
+                </a>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="fade-in">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Témoignages</h3>
+            <div class="swiper-container testimonial-swiper">
+                <div class="swiper-wrapper">
+                    <!-- Testimonial 1 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-slide">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Mamadou Bah</h4>
+                                    <p class="text-green-600 text-sm">Membre depuis 2025</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 italic">
+                                "Rejoindre LaGuinèFé a changé ma vie. J'ai trouvé une communauté qui partage mes valeurs et ma vision pour notre pays. Les actions concrètes que nous menons donnent de l'espoir à beaucoup de Guinéens."
+                            </p>
+                            <div class="flex mt-4">
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-slide">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Fatoumata Diallo</h4>
+                                    <p class="text-green-600 text-sm">Bénévole</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 italic">
+                                "Les programmes éducatifs de LaGuinèFé ont permis à de nombreux enfants de mon quartier d'avoir accès à des cours de soutien de qualité. Je suis fière de contribuer à cette belle initiative."
+                            </p>
+                            <div class="flex mt-4">
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star-half-alt text-yellow-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-slide">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Dr. Ibrahima Camara</h4>
+                                    <p class="text-green-600 text-sm">Partenaire médical</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 italic">
+                                "La campagne de sensibilisation sur la santé que nous avons menée avec LaGuinèFé a touché plus de 5,000 personnes dans les zones rurales. C'est exactement le type d'initiative dont notre pays a besoin."
+                            </p>
+                            <div class="flex mt-4">
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nouveau témoignage -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-slide">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Mariama Sylla</h4>
+                                    <p class="text-green-600 text-sm">Entrepreneure locale</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 italic">
+                                "Grâce au programme de microfinance de LaGuinèFé, j'ai pu développer mon entreprise et créer des emplois dans ma communauté. Leur accompagnement a été déterminant pour ma réussite."
+                            </p>
+                            <div class="flex mt-4">
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                                <i class="fas fa-star text-yellow-500"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+    <!-- Join Section -->
+    <section id="join" class="py-16 bg-gray-100 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Rejoignez le mouvement</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 mx-auto mt-4"></div>
+                <p class="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
+                    Ensemble, nous pouvons construire une Guinée plus forte, plus unie et plus prospère. Votre engagement fait la différence.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Join Form -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 fade-in">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Formulaire d'inscription</h3>
+                    <form id="join-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+                                <input type="text" id="first-name" name="first-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                            </div>
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                                <input type="text" id="last-name" name="last-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                            <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+                                <input type="text" id="city" name="city" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                            </div>
+                            <div>
+                                <label for="profession" class="block text-sm font-medium text-gray-700 mb-1">Profession</label>
+                                <input type="text" id="profession" name="profession" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="motivation" class="block text-sm font-medium text-gray-700 mb-1">Pourquoi souhaitez-vous nous rejoindre ?</label>
+                            <textarea id="motivation" name="motivation" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Domaines d'intérêt</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center">
+                                    <input id="education" name="interests[]" type="checkbox" value="education" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                    <label for="education" class="ml-2 block text-sm text-gray-700">Éducation</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="health" name="interests[]" type="checkbox" value="health" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                    <label for="health" class="ml-2 block text-sm text-gray-700">Santé</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="environment" name="interests[]" type="checkbox" value="environment" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                    <label for="environment" class="ml-2 block text-sm text-gray-700">Environnement</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="economy" name="interests[]" type="checkbox" value="economy" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                    <label for="economy" class="ml-2 block text-sm text-gray-700">Économie</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center">
+                            <input id="newsletter" name="newsletter" type="checkbox" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                            <label for="newsletter" class="ml-2 block text-sm text-gray-700">
+                                Je souhaite recevoir la newsletter
+                            </label>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-red-600 text-white py-3 px-6 rounded-lg font-medium hover:from-green-700 hover:to-red-700 transition-colors btn-hover-effect">
+                                Envoyer ma candidature
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Downloads -->
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Ressources à télécharger</h3>
+                    <div class="space-y-4">
+                        <!-- Resource 1 -->
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div class="p-6 flex items-start">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-4">
+                                    <i class="fas fa-file-pdf text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-1">Charte du mouvement</h4>
+                                    <p class="text-gray-700 text-sm mb-2">Document PDF contenant nos valeurs et principes fondamentaux.</p>
+                                    <a href="charte.pdf" class="text-green-600 text-sm font-medium hover:text-green-700 flex items-center">
+                                        <i class="fas fa-download mr-2"></i> Télécharger (2.4 MB)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Resource 2 -->
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div class="p-6 flex items-start">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-4">
+                                    <i class="fas fa-images text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-1">Kit de communication</h4>
+                                    <p class="text-gray-700 text-sm mb-2">Logos et visuels officiels du mouvement en haute résolution.</p>
+                                    <a href="kit_communication.zip" class="text-green-600 text-sm font-medium hover:text-green-700 flex items-center">
+                                        <i class="fas fa-download mr-2"></i> Télécharger (5.1 MB)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Resource 3 -->
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div class="p-6 flex items-start">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-4">
+                                    <i class="fas fa-file-alt text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-1">Guide du membre</h4>
+                                    <p class="text-gray-700 text-sm mb-2">Toutes les informations pour bien démarrer en tant que membre.</p>
+                                    <a href="guide_membre.pdf" class="text-green-600 text-sm font-medium hover:text-green-700 flex items-center">
+                                        <i class="fas fa-download mr-2"></i> Télécharger (1.8 MB)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nouvelle ressource -->
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div class="p-6 flex items-start">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-4">
+                                    <i class="fas fa-calendar-alt text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-1">Calendrier des activités</h4>
+                                    <p class="text-gray-700 text-sm mb-2">Programme détaillé des événements à venir pour les 6 prochains mois.</p>
+                                    <a href="calendrier.pdf" class="text-green-600 text-sm font-medium hover:text-green-700 flex items-center">
+                                        <i class="fas fa-download mr-2"></i> Télécharger (1.2 MB)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Membership Benefits -->
+                    <div class="mt-8 bg-white rounded-xl shadow-md p-6">
+                        <h4 class="font-bold text-xl text-gray-900 mb-4">Avantages de devenir membre</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3">
+                                    <i class="fas fa-check text-sm"></i>
+                                </div>
+                                <span class="text-gray-700">Accès à nos événements exclusifs</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3">
+                                    <i class="fas fa-check text-sm"></i>
+                                </div>
+                                <span class="text-gray-700">Opportunités de formation et de développement</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3">
+                                    <i class="fas fa-check text-sm"></i>
+                                </div>
+                                <span class="text-gray-700">Réseau de professionnels engagés</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3">
+                                    <i class="fas fa-check text-sm"></i>
+                                </div>
+                                <span class="text-gray-700">Participation aux prises de décision</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3">
+                                    <i class="fas fa-check text-sm"></i>
+                                </div>
+                                <span class="text-gray-700">Impact réel sur votre communauté</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3">
+                                    <i class="fas fa-check text-sm"></i>
+                                </div>
+                                <span class="text-gray-700">Mentorat personnalisé par des experts</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Témoignage spécial -->
+                    <div class="mt-8 bg-gradient-to-r from-green-600 to-red-600 rounded-xl p-6 text-white">
+                        <div class="flex items-center mb-4">
+                            <div class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mr-4">
+                                <i class="fas fa-quote-left text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl">Amadou DIAKITE</h4>
+                                <p class="text-white/80">Membre depuis 2025</p>
+                            </div>
+                        </div>
+                        <p class="italic text-lg">
+                            "Rejoindre LaGuinèFé a été l'une des meilleures décisions de ma vie. J'ai pu développer mes compétences, élargir mon réseau et contribuer concrètement au développement de mon pays."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- News Section -->
+    <section id="news" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center mb-12 fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Actualités</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 mx-auto mt-4"></div>
+            <p class="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
+                Restez informé des dernières nouvelles et activités de notre mouvement à travers le pays.
+            </p>
+        </div>
+        <!-- News Categories -->
+        <div class="flex justify-center mb-8 fade-in">
+            <div class="inline-flex rounded-md shadow-sm" role="group">
+                <button type="button" class="px-4 py-2 text-sm font-medium rounded-l-lg bg-gradient-to-r from-green-600 to-red-600 text-white">
+                    Toutes les actualités
+                </button>
+                <button type="button" class="px-4 py-2 text-sm font-medium bg-white text-gray-700 hover:bg-gray-50">
+                    Guinée
+                </button>
+                <button type="button" class="px-4 py-2 text-sm font-medium bg-white text-gray-700 hover:bg-gray-50">
+                    Diaspora
+                </button>
+                <button type="button" class="px-4 py-2 text-sm font-medium rounded-r-lg bg-white text-gray-700 hover:bg-gray-50">
+                    Mouvement
+                </button>
+            </div>
+        </div>
+        <!-- News Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 fade-in">
+            <!-- News 1 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                <div class="h-48 bg-gradient-to-r from-green-600 to-red-600 flex items-center justify-center text-white">
+                    <i class="fas fa-newspaper text-6xl opacity-30"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>10 Avril 2025</span>
+                        <span class="mx-2">•</span>
+                        <span class="text-green-600">Guinée</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Nouveau projet éducatif lancé à Conakry</h3>
+                    <p class="text-gray-700 mb-4">
+                        LaGuinèFé a inauguré un nouveau centre éducatif dans le quartier de Matoto, offrant des cours de soutien à plus de 200 enfants défavorisés.
+                    </p>
+                    <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                        Lire la suite <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- News 2 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                <div class="h-48 bg-gradient-to-r from-red-600 to-yellow-500 flex items-center justify-center text-white">
+                    <i class="fas fa-globe-africa text-6xl opacity-30"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>14 Avril 2025</span>
+                        <span class="mx-2">•</span>
+                        <span class="text-green-600">Diaspora</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">La communauté guinéenne de France se mobilise</h3>
+                    <p class="text-gray-700 mb-4">
+                        Les membres de la diaspora en France ont organisé une collecte de fonds record pour soutenir les projets de développement en Guinée.
+                    </p>
+                    <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                        Lire la suite <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- News 3 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                <div class="h-48 bg-gradient-to-r from-yellow-500 to-green-600 flex items-center justify-center text-white">
+                    <i class="fas fa-users text-6xl opacity-30"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>15 Mars 2025</span>
+                        <span class="mx-2">•</span>
+                        <span class="text-green-600">Mouvement</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Assemblée générale annuelle</h3>
+                    <p class="text-gray-700 mb-4">
+                        Retour sur les décisions prises lors de notre assemblée générale qui a rassemblé des représentants de toutes les régions du pays.
+                    </p>
+                    <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                        Lire la suite <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nouvelle actualité -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                <div class="h-48 bg-gradient-to-r from-green-600 to-yellow-500 flex items-center justify-center text-white">
+                    <i class="fas fa-seedling text-6xl opacity-30"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>5 Avril 2025</span>
+                        <span class="mx-2">•</span>
+                        <span class="text-green-600">Environnement</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Campagne de reboisement à Kindia</h3>
+                    <p class="text-gray-700 mb-4">
+                        Plus de 1000 arbres à planter à l'ordre du jour lors de notre journée de reboisement avec la participation des écoles locales et des autorités.
+                    </p>
+                    <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                        Lire la suite <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nouvelle actualité -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                <div class="h-48 bg-gradient-to-r from-red-600 to-green-600 flex items-center justify-center text-white">
+                    <i class="fas fa-heartbeat text-6xl opacity-30"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>25 Mars 2025</span>
+                        <span class="mx-2">•</span>
+                        <span class="text-green-600">Santé</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Campagne de vaccination réussie</h3>
+                    <p class="text-gray-700 mb-4">
+                        Notre équipe médicale souhaite vacciner 500 enfants dans les zones rurales contre plusieurs maladies infantiles.
+                    </p>
+                    <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                        Lire la suite <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <            <!-- Nouvelle actualité -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
+                <div class="h-48 bg-gradient-to-r from-yellow-500 to-red-600 flex items-center justify-center text-white">
+                    <i class="fas fa-graduation-cap text-6xl opacity-30"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>15 Mars 2025</span>
+                        <span class="mx-2">•</span>
+                        <span class="text-green-600">Éducation</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Remise de bourses d'études</h3>
+                    <p class="text-gray-700 mb-4">
+                        LaGuinèFé souhaite attribué 50 bourses d'études à des jeunes talentueux issus de milieux défavorisés pour poursuivre leurs études supérieures.
+                    </p>
+                    <a href="#" class="text-green-600 font-medium hover:text-green-700 flex items-center">
+                        Lire la suite <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bouton pour voir toutes les actualités -->
+        <div class="text-center fade-in">
+            <a href="#" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-red-600 text-white font-medium rounded-lg hover:from-green-700 hover:to-red-700 transition-colors btn-hover-effect">
+                <i class="fas fa-newspaper mr-2"></i> Voir toutes les actualités
+            </a>
+        </div>
+        <!-- Inspiring Quotes -->
+        <div class="bg-gradient-to-r from-green-600 to-red-600 rounded-xl p-8 md:p-12 text-white mt-16 fade-in">
+            <h3 class="text-2xl font-bold mb-6 text-center">Citations inspirantes</h3>
+            <div class="swiper-container quote-swiper">
+                <div class="swiper-wrapper">
+                    <!-- Quote 1 -->
+                    <div class="swiper-slide">
+                        <div class="text-center max-w-3xl mx-auto">
+                            <blockquote class="text-xl italic mb-6">
+                                "La véritable unité nationale ne peut se construire que sur la base de la justice sociale et du respect mutuel."
+                            </blockquote>
+                            <p class="font-medium">— Yattara Ousmane, Fondateur de LaGuinèFé</p>
+                        </div>
+                    </div>
+                    <!-- Quote 2 -->
+                    <div class="swiper-slide">
+                        <div class="text-center max-w-3xl mx-auto">
+                            <blockquote class="text-xl italic mb-6">
+                                "Chaque Guinéen a un rôle à jouer dans la construction de notre nation. Aucune contribution n'est trop petite."
+                            </blockquote>
+                            <p class="font-medium">— Fatoumata Binta Barry, Responsable Économie</p>
+                        </div>
+                    </div>
+                    <!-- Quote 3 -->
+                    <div class="swiper-slide">
+                        <div class="text-center max-w-3xl mx-auto">
+                            <blockquote class="text-xl italic mb-6">
+                                "L'éducation est l'arme la plus puissante que nous pouvons utiliser pour changer le monde, et cela commence par notre pays."
+                            </blockquote>
+                            <p class="font-medium">— Aissatou Diallo, Coordinatrice Éducation</p>
+                        </div>
+                    </div>
+
+                    <!-- Nouvelle citation -->
+                    <div class="swiper-slide">
+                        <div class="text-center max-w-3xl mx-auto">
+                            <blockquote class="text-xl italic mb-6">
+                                "Notre diversité est notre force. Ensemble, nous sommes plus forts et pouvons accomplir de grandes choses pour notre Guinée."
+                            </blockquote>
+                            <p class="font-medium">— Dr. Mohamed Camara, Responsable Santé</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <!-- Newsletter Subscription -->
+        <div class="mt-16 bg-white rounded-xl shadow-md p-8 fade-in">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-6 md:mb-0 md:mr-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Abonnez-vous à notre newsletter</h3>
+                    <p class="text-gray-700">Recevez nos dernières actualités et informations directement dans votre boîte mail.</p>
+                </div>
+                <div class="w-full md:w-auto">
+                    <form class="flex">
+                        <input type="email" placeholder="Votre adresse email" required class="flex-grow px-4 py-3 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                        <button type="submit" class="bg-gradient-to-r from-green-600 to-red-600 text-white px-6 py-3 rounded-r-lg font-medium hover:from-green-700 hover:to-red-700 transition-colors">
+                            S'abonner
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-100 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Contactez-nous</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 mx-auto mt-4"></div>
+                <p class="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
+                    Nous sommes à votre écoute. N'hésitez pas à nous contacter pour toute question ou suggestion.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Contact Info -->
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Coordonnées</h3>
+                    <div class="space-y-6">
+                        <!-- Email -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-1">Email</h4>
+                                <a href="mailto:contact@laguinefe.org" class="text-green-600 hover:text-green-700">contact@laguinefe.org</a>
+                            </div>
+                        </div>
+
+                        <!-- Téléphone -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-1">Téléphone</h4>
+                                <a href="tel:+33622334455" class="text-green-600 hover:text-green-700">+224 622 33 44 55</a>
+                            </div>
+                        </div>
+                        <!-- Address -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-1">Siège social</h4>
+                                <p class="text-gray-700">Rue KA 028, CANTAGREL<br>PARIS, France</p>
+                            </div>
+                        </div>
+                        <!-- Horaires -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-1">Horaires d'ouverture</h4>
+                                <p class="text-gray-700">Lundi - Vendredi: 8h00 - 17h00<br>Samedi: 9h00 - 13h00</p>
+                            </div>
+                        </div>
+                        <!-- Social Media -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-600 flex items-center justify-center text-white mr-4">
+                                <i class="fas fa-share-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-3">Réseaux sociaux</h4>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-colors">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-colors">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-colors">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-colors">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-colors">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Map -->
+                    <div class="mt-8 rounded-xl overflow-hidden shadow-md">
+                        <div class="h-64 bg-gradient-to-r from-green-600 to-red-600 flex items-center justify-center text-white">
+                            <i class="fas fa-map-marked-alt text-5xl opacity-30"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contact Form -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 fade-in">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Envoyez-nous un message</h3>
+                    <form class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                                <input type="text" id="contact-name" name="contact-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                            </div>
+                            <div>
+                                <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" id="contact-email" name="contact-email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="contact-subject" class="block text-sm font-medium text-gray-700 mb-1">Sujet</label>
+                            <input type="text" id="contact-subject" name="contact-subject" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                        </div>
+                        <div>
+                            <label for="contact-message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea id="contact-message" name="contact-message" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-green-600"></textarea>
+                        </div>
+
+                        <!-- Captcha -->
+                        <div class="flex items-center bg-gray-50 p-3 rounded-lg">
+                            <div class="w-6 h-6 bg-green-100 flex items-center justify-center rounded mr-3">
+                                <i class="fas fa-shield-alt text-green-600"></i>
+                            </div>
+                            <span class="text-sm text-gray-700">Protection anti-spam: 2 + 3 = ?</span>
+                            <input type="number" id="captcha" name="captcha" required class="ml-auto w-16 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-red-600 text-white py-3 px-6 rounded-lg font-medium hover:from-green-700 hover:to-red-700 transition-colors btn-hover-effect">
+                                Envoyer le message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="mt-16 fade-in">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Questions fréquentes</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- FAQ Item 1 -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h4 class="font-bold text-gray-900 mb-2">Comment puis-je devenir membre ?</h4>
+                        <p class="text-gray-700">Vous pouvez remplir le formulaire d'inscription sur notre site web ou nous contacter directement. Nous vous guiderons à travers le processus d'adhésion.</p>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h4 class="font-bold text-gray-900 mb-2">Y a-t-il des frais d'adhésion ?</h4>
+                        <p class="text-gray-700">L'adhésion de base est gratuite. Cependant, les membres peuvent choisir de faire des dons pour soutenir nos activités.</p>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h4 class="font-bold text-gray-900 mb-2">Comment puis-je faire un don ?</h4>
+                        <p class="text-gray-700">Vous pouvez faire un don via notre plateforme en ligne sécurisée ou par virement bancaire. Contactez-nous pour plus de détails.</p>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h4 class="font-bold text-gray-900 mb-2">Puis-je devenir bénévole sans être membre ?</h4>
+                        <p class="text-gray-700">Oui, nous accueillons tous les bénévoles qui souhaitent contribuer à nos actions, qu'ils soient membres ou non.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Logo & About -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Flag_of_Guinea.svg/1200px-Flag_of_Guinea.svg.png" alt="Logo LaGuinèFé" class="logo-photo">
+                        <span class="text-xl font-bold">LaGuinèFé</span>
+                    </div>
+                    <p class="text-white/90 mb-4">
+                        Mouvement citoyen engagé pour le développement et la prospérité de la Guinée.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Liens rapides</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-white/90 hover:text-white transition-colors">Accueil</a></li>
+                        <li><a href="#about" class="text-white/90 hover:text-white transition-colors">À propos</a></li>
+                        <li><a href="#actions" class="text-white/90 hover:text-white transition-colors">Nos actions</a></li>
+                        <li><a href="#join" class="text-white/90 hover:text-white transition-colors">Rejoindre</a></li>
+                        <li><a href="#news" class="text-white/90 hover:text-white transition-colors">Actualités</a></li>
+                        <li><a href="#contact" class="text-white/90 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- Legal -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Légal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-white/90 hover:text-white transition-colors">Mentions légales</a></li>
+                        <li><a href="#" class="text-white/90 hover:text-white transition-colors">Politique de confidentialité</a></li>
+                        <li><a href="#" class="text-white/90 hover:text-white transition-colors">Conditions d'utilisation</a></li>
+                        <li><a href="#" class="text-white/90 hover:text-white transition-colors">Statuts du mouvement</a></li>
+                        <li><a href="#" class="text-white/90 hover:text-white transition-colors">Transparence financière</a></li>
+                    </ul>
+                </div>
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Newsletter</h4>
+                    <p class="text-white/90 mb-4">
+                        Abonnez-vous à notre newsletter pour recevoir nos dernières actualités.
+                    </p>
+                    <form class="flex">
+                        <input type="email" placeholder="Votre email" class="px-4 py-2 rounded-l-lg focus:outline-none text-gray-900 w-full">
+                        <button type="submit" class="bg-white text-green-600 px-4 py-2 rounded-r-lg font-medium hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="mt-12 pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-white/90 text-sm mb-4 md:mb-0">
+                    &copy; 2025 LaGuinèFé. Par YATTARA Ousmane Tous droits réservés.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-white/90 hover:text-white text-sm">Aide</a>
+                    <a href="#" class="text-white/90 hover:text-white text-sm">Presse</a>
+                    <a href="#" class="text-white/90 hover:text-white text-sm">Partenaires</a>
+                    <a href="#" class="text-white/90 hover:text-white text-sm">Carrières</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/224622334455" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+        <div class="relative bg-white rounded-xl overflow-hidden max-w-4xl w-full">
+            <button id="close-modal" class="absolute top-4 right-4 text-white bg-red-600 rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-700 transition-colors z-10">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="aspect-w-16 aspect-h-9">
+                <iframe id="video-iframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-20 right-6 bg-gradient-to-r from-green-600 to-red-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="main.js"></script>
+    <script src="Swiper.js"></script>
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.remove('menu-closed');
+            document.getElementById('mobile-menu').classList.add('menu-open');
         });
 
-        menuClose.addEventListener('click', function() {
-            mobileMenu.classList.remove('menu-open');
-            mobileMenu.classList.add('menu-closed');
+        document.getElementById('menu-close').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.remove('menu-open');
+            document.getElementById('mobile-menu').classList.add('menu-closed');
         });
-    }
 
-    // Fermer le menu mobile quand on clique sur un lien
-    const mobileLinks = document.querySelectorAll('#mobile-menu a');
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            mobileMenu.classList.remove('menu-open');
-            mobileMenu.classList.add('menu-closed');
+        // Video Modal
+        function openVideoModal(videoSrc) {
+            document.getElementById('video-iframe').src = videoSrc;
+            document.getElementById('video-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('close-modal').addEventListener('click', function() {
+            document.getElementById('video-modal').classList.remove('active');
+            document.getElementById('video-iframe').src = '';
+            document.body.style.overflow = 'auto';
         });
-    });
 
-    // Smooth scroll pour les liens d'ancrage
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
+        // Initialize Swiper
+        document.addEventListener('DOMContentLoaded', function() {
+            // Banner Swiper
+            const bannerSwiper = new Swiper('.swiper-container', {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
 
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
+            // Testimonial Swiper
+            const testimonialSwiper = new Swiper('.testimonial-swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 6000,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                spaceBetween: 30,
+            });
 
-            if (targetElement) {
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            // Quote Swiper
+            const quoteSwiper = new Swiper('.quote-swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 7000,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+            });
+        });
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Close mobile menu if open
+                if (document.getElementById('mobile-menu').classList.contains('menu-open')) {
+                    document.getElementById('mobile-menu').classList.remove('menu-open');
+                    document.getElementById('mobile-menu').classList.add('menu-closed');
+                }
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Back to Top Button
+        window.addEventListener('scroll', function() {
+            const backToTopButton = document.getElementById('back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+
+        document.getElementById('back-to-top').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Fade-in Animation for Sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fadeIn');
+                        observer.unobserve(entry.target);
+                    }
                 });
-            }
+            }, {
+                threshold: 0.1
+            });
+
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
         });
-    });
 
-    // Initialisation des sliders
-    initializeSliders();
-
-    // Formulaires
-    initializeForms();
-
-    // Vidéo modal
-    initializeVideoModal();
-
-    // Animation au scroll
-    initializeScrollAnimations();
-
-    // Compteur pour les statistiques
-    initializeCounters();
-});
-
-// Initialisation des sliders Swiper
-function initializeSliders() {
-    // Slider principal
-    const mainSwiper = new Swiper('.swiper-container', {
-        loop: true,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-
-    // Slider témoignages
-    const testimonialSwiper = new Swiper('.testimonial-swiper', {
-        loop: true,
-        autoplay: {
-            delay: 6000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        spaceBetween: 30,
-    });
-
-    // Slider citations
-    const quoteSwiper = new Swiper('.quote-swiper', {
-        loop: true,
-        autoplay: {
-            delay: 7000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-    });
-}
-
-// Initialisation des formulaires
-function initializeForms() {
-    const joinForm = document.getElementById('join-form');
-    const contactForm = document.querySelector('#contact form');
-
-    if (joinForm) {
-        joinForm.addEventListener('submit', function(e) {
+        // Form Submission Handlers
+        document.getElementById('join-form').addEventListener('submit', function(e) {
             e.preventDefault();
-
             // Simuler l'envoi du formulaire
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Envoi en cours...';
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Envoi en cours...';
 
             setTimeout(() => {
-                showNotification('Votre candidature a été envoyée avec succès!', 'success');
-                joinForm.reset();
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
+                alert('Merci pour votre inscription ! Nous vous contacterons bientôt.');
+                this.reset();
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
             }, 1500);
         });
-    }
 
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Contact Form
+        const contactForm = document.querySelector('#contact form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-            // Vérification du captcha
-            const captchaValue = document.getElementById('captcha').value;
-            if (captchaValue !== '5') {
-                showNotification('Veuillez répondre correctement à la question anti-spam.', 'error');
-                return;
-            }
+                // Vérification du captcha
+                const captchaValue = document.getElementById('captcha').value;
+                if (captchaValue !== '5') {
+                    alert('Veuillez répondre correctement à la question anti-spam.');
+                    return;
+                }
 
-            // Simuler l'envoi du formulaire
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
+                // Simuler l'envoi du formulaire
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.innerHTML;
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Envoi en cours...';
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Envoi en cours...';
 
-            setTimeout(() => {
-                showNotification('Votre message a été envoyé avec succès!', 'success');
-                contactForm.reset();
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            }, 1500);
+                setTimeout(() => {
+                    alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
+                    this.reset();
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }, 1500);
+            });
+        }
+
+        // Animation pour les boutons
+        document.querySelectorAll('.btn-hover-effect').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.classList.add('animate-pulse');
+            });
+
+            button.addEventListener('mouseleave', function() {
+                this.classList.remove('animate-pulse');
+            });
         });
-    }
-}
 
-// Afficher une notification
-function showNotification(message, type = 'info') {
-    // Créer l'élément de notification
-    const notification = document.createElement('div');
-    notification.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-500 translate-y-20 opacity-0`;
-
-    // Définir le style en fonction du type
-    if (type === 'success') {
-        notification.classList.add('bg-green-600', 'text-white');
-    } else if (type === 'error') {
-        notification.classList.add('bg-red-600', 'text-white');
-    } else {
-        notification.classList.add('bg-blue-600', 'text-white');
-    }
-
-    // Ajouter le message
-    notification.innerHTML = message;
-
-    // Ajouter au DOM
-    document.body.appendChild(notification);
-
-    // Animer l'entrée
-    setTimeout(() => {
-        notification.classList.remove('translate-y-20', 'opacity-0');
-    }, 10);
-
-    // Supprimer après un délai
-    setTimeout(() => {
-        notification.classList.add('translate-y-20', 'opacity-0');
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 500);
-    }, 5000);
-}
-
-// Initialiser la modal vidéo
-function initializeVideoModal() {
-    // Ajouter l'événement pour fermer la modal
-    const closeModalBtn = document.getElementById('close-modal');
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', function() {
-            closeVideoModal();
-        });
-    }
-
-    // Fermer la modal en cliquant en dehors
-    const modal = document.getElementById('video-modal');
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeVideoModal();
+        // Sticky Header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-md');
+                header.querySelector('nav').classList.add('py-2');
+                header.querySelector('nav').classList.remove('py-4');
+            } else {
+                header.classList.remove('shadow-md');
+                header.querySelector('nav').classList.remove('py-2');
+                header.querySelector('nav').classList.add('py-4');
             }
         });
-    }
-}
 
-// Ouvrir la modal vidéo
-function openVideoModal(videoUrl) {
-    const modal = document.getElementById('video-modal');
-    const iframe = document.getElementById('video-iframe');
+        // Initialiser les animations GSAP
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation du header
+            gsap.from("header", {
+                y: -100,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
 
-    if (modal && iframe) {
-        iframe.src = videoUrl;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
+            // Animation du titre principal
+            gsap.from("#home h1", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: 0.5,
+                ease: "power3.out"
+            });
 
-// Fermer la modal vidéo
-function closeVideoModal() {
-    const modal = document.getElementById('video-modal');
-    const iframe = document.getElementById('video-iframe');
+            // Animation du sous-titre
+            gsap.from("#home p.text-xl", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: 0.7,
+                ease: "power3.out"
+            });
 
-    if (modal && iframe) {
-        iframe.src = '';
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
+            // Animation des boutons
+            gsap.from("#home .flex.flex-col", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: 0.9,
+                ease: "power3.out"
+            });
 
-// Animations au scroll
-function initializeScrollAnimations() {
-    // Utiliser GSAP pour les animations au scroll
-    gsap.registerPlugin(ScrollTrigger);
+            // Animation des sections au scroll
+            gsap.registerPlugin(ScrollTrigger);
 
-    gsap.utils.toArray("section").forEach((section, i) => {
-        if (i === 0) return; // Skip first section (home)
+            gsap.utils.toArray("section").forEach((section, i) => {
+                if (i === 0) return; // Skip first section (home)
 
-        gsap.from(section, {
-            scrollTrigger: {
-                trigger: section,
-                start: "top 80%",
-            },
-            opacity: 0,
-            y: 50,
-            duration: 1,
-            ease: "power3.out"
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top 80%",
+                    onEnter: () => {
+                        gsap.to(section, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            ease: "power3.out"
+                        });
+                    },
+                    once: true
+                });
+            });
         });
-    });
-}
-
-// Compteurs pour les statistiques
-function initializeCounters() {
-    const counters = document.querySelectorAll('.counter');
-
-    counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        const duration = 2000; // ms
-        const step = Math.ceil(target / (duration / 16)); // 60fps
-
-        let current = 0;
-
-        const updateCounter = () => {
-            current += step;
-            if (current > target) {
-                current = target;
-                clearInterval(interval);
-            }
-            counter.textContent = current.toLocaleString();
-        };
-
-        const interval = setInterval(updateCounter, 16);
-    });
-}
+    </script>
+</body>
+</html>
