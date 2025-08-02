@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - LaGuinèFé</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <style>
+        :root {
+            --color-red: #E4002B;
+            --color-yellow: #F7D81C;
+            --color-green: #009444;
+            --color-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-green), var(--color-yellow));
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 148, 68, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .form-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            color: white;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-green);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(0, 148, 68, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--color-green), var(--color-yellow));
+            color: white;
+        }
+
+        .tab-button:not(.active) {
+            color: rgba(255, 255, 255, 0.7);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-button:not(.active):hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .floating-shape:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            bottom: 10%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        /* International phone input styling */
+        .iti {
+            width: 100%;
+        }
+
+        .iti__country-list {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .iti__country {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .iti__country:hover {
+            background: rgba(0, 148, 68, 0.1);
+        }
+
+        .iti__selected-flag {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px 0 0 8px;
+            border-right: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .verification-code {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .verification-code input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .verification-code input:focus {
+            outline: none;
+            border-color: var(--color-green);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .glass-card {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .floating-shape {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Shapes -->
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 backdrop-filter backdrop-blur-lg">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="accueil.html" class="flex items-center text-white font-bold text-xl">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        LaGuinèFé
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="accueil.html" class="text-white hover:text-gray-200 transition-colors">Accueil</a>
+                    <a href="don.html" class="text-white hover:text-gray-200 transition-colors">Faire un don</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-10 flex items-center justify-center min-h-screen">
+        <div class="max-w-md w-full mx-4">
+            <!-- Auth Card -->
+            <div class="glass-card p-8">
+                <!-- Logo and Title -->
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 flex items-center justify-center">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h1 class="text-3xl font-bold text-white mb-2">Bienvenue</h1>
+                    <p class="text-gray-200">Rejoignez la communauté LaGuinèFé</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex mb-8 bg-rgba(255,255,255,0.05) rounded-lg p-1">
+                    <button id="login-tab" class="tab-button active flex-1">Connexion</button>
+                    <button id="register-tab" class="tab-button flex-1">Inscription</button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-form" class="space-y-6">
+                    <div>
+                        <label class="block text-white mb-2">Numéro de téléphone</label>
+                        <input type="tel" id="login-phone" class="form-input">
+                    </div>
+                    
+                    <button id="login-send-code" class="btn-primary w-full">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Envoyer le code
+                    </button>
+
+                    <!-- Verification Code Section (hidden initially) -->
+                    <div id="login-verification" class="hidden">
+                        <label class="block text-white mb-2 text-center">Code de vérification</label>
+                        <p class="text-gray-300 text-sm text-center mb-4">
+                            Entrez le code reçu par SMS
+                        </p>
+                        <div class="verification-code">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                        </div>
+                        <button id="login-verify" class="btn-primary w-full">
+                            <i class="fas fa-check mr-2"></i>
+                            Vérifier et se connecter
+                        </button>
+                        <button id="login-resend" class="btn-secondary w-full mt-3">
+                            <i class="fas fa-redo mr-2"></i>
+                            Renvoyer le code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-form" class="space-y-6 hidden">
+                    <div>
+                        <label class="block text-white mb-2">Nom complet *</label>
+                        <input type="text" id="register-name" class="form-input" placeholder="Votre nom complet" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-white mb-2">Email *</label>
+                        <input type="email" id="register-email" class="form-input" placeholder="votre@email.com" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-white mb-2">Numéro de téléphone *</label>
+                        <input type="tel" id="register-phone" class="form-input">
+                    </div>
+
+                    <div>
+                        <label class="block text-white mb-2">Pays de résidence *</label>
+                        <select id="register-country" class="form-input" required>
+                            <option value="">Sélectionnez votre pays</option>
+                            <option value="GN">Guinée</option>
+                            <option value="FR">France</option>
+                            <option value="US">États-Unis</option>
+                            <option value="CA">Canada</option>
+                            <option value="GB">Royaume-Uni</option>
+                            <option value="DE">Allemagne</option>
+                            <option value="ES">Espagne</option>
+                            <option value="IT">Italie</option>
+                            <option value="BE">Belgique</option>
+                            <option value="CH">Suisse</option>
+                            <option value="SN">Sénégal</option>
+                            <option value="ML">Mali</option>
+                            <option value="CI">Côte d'Ivoire</option>
+                            <option value="BF">Burkina Faso</option>
+                            <option value="MA">Maroc</option>
+                            <option value="DZ">Algérie</option>
+                            <option value="TN">Tunisie</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-white mb-2">Profession</label>
+                        <input type="text" id="register-profession" class="form-input" placeholder="Votre profession">
+                    </div>
+
+                    <div>
+                        <label class="block text-white mb-2">Domaine d'expertise</label>
+                        <select id="register-expertise" class="form-input">
+                            <option value="">Sélectionnez votre domaine</option>
+                            <option value="technology">Technologie & Innovation</option>
+                            <option value="healthcare">Santé & Médecine</option>
+                            <option value="education">Éducation & Formation</option>
+                            <option value="agriculture">Agriculture & Environnement</option>
+                            <option value="finance">Finance & Économie</option>
+                            <option value="law">Droit & Justice</option>
+                            <option value="engineering">Ingénierie & Infrastructure</option>
+                            <option value="arts">Arts & Culture</option>
+                            <option value="business">Commerce & Entrepreneuriat</option>
+                            <option value="research">Recherche & Développement</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" id="register-terms" class="mr-3 w-4 h-4" required>
+                            <span class="text-sm">J'accepte les <a href="#" class="text-green-400 hover:underline">conditions d'utilisation</a> et la <a href="#" class="text-green-400 hover:underline">politique de confidentialité</a></span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" id="register-newsletter" class="mr-3 w-4 h-4">
+                            <span class="text-sm">Je souhaite recevoir la newsletter LaGuinèFé</span>
+                        </label>
+                    </div>
+
+                    <button id="register-send-code" class="btn-primary w-full">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Créer mon compte
+                    </button>
+
+                    <!-- Verification Code Section for Registration -->
+                    <div id="register-verification" class="hidden">
+                        <label class="block text-white mb-2 text-center">Code de vérification</label>
+                        <p class="text-gray-300 text-sm text-center mb-4">
+                            Entrez le code reçu par SMS pour finaliser votre inscription
+                        </p>
+                        <div class="verification-code">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                            <input type="text" maxlength="1" class="code-input">
+                        </div>
+                        <button id="register-verify" class="btn-primary w-full">
+                            <i class="fas fa-check mr-2"></i>
+                            Finaliser l'inscription
+                        </button>
+                        <button id="register-resend" class="btn-secondary w-full mt-3">
+                            <i class="fas fa-redo mr-2"></i>
+                            Renvoyer le code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Social Login -->
+                <div class="mt-8">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-400"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-transparent text-gray-300">Ou continuer avec</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-2 gap-3">
+                        <button class="btn-secondary flex items-center justify-center">
+                            <i class="fab fa-google mr-2"></i>
+                            Google
+                        </button>
+                        <button class="btn-secondary flex items-center justify-center">
+                            <i class="fab fa-facebook-f mr-2"></i>
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="text-center mt-6">
+                <p class="text-gray-300 text-sm">
+                    Besoin d'aide ? 
+                    <a href="#" class="text-green-400 hover:underline">Contactez-nous</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full p-8 text-center">
+            <div class="text-6xl text-green-400 mb-4">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-4">Bienvenue dans LaGuinèFé !</h2>
+            <p class="text-gray-200 mb-6">
+                Votre compte a été créé avec succès. Vous pouvez maintenant accéder à votre profil.
+            </p>
+            <button id="go-to-profile" class="btn-primary">
+                Accéder à mon profil
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize international phone input
+            const loginPhoneInput = document.querySelector("#login-phone");
+            const registerPhoneInput = document.querySelector("#register-phone");
+            
+            const loginIti = window.intlTelInput(loginPhoneInput, {
+                initialCountry: "auto",
+                geoIpLookup: function(success, failure) {
+                    fetch('https://ipapi.co/json')
+                        .then(response => response.json())
+                        .then(data => success(data.country_code))
+                        .catch(() => success("gn"));
+                },
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            const registerIti = window.intlTelInput(registerPhoneInput, {
+                initialCountry: "auto",
+                geoIpLookup: function(success, failure) {
+                    fetch('https://ipapi.co/json')
+                        .then(response => response.json())
+                        .then(data => success(data.country_code))
+                        .catch(() => success("gn"));
+                },
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            // Tab switching
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+
+            loginTab.addEventListener('click', function() {
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            });
+
+            registerTab.addEventListener('click', function() {
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            });
+
+            // Verification code input handling
+            function setupCodeInputs(container) {
+                const inputs = container.querySelectorAll('.code-input');
+                inputs.forEach((input, index) => {
+                    input.addEventListener('input', function(e) {
+                        if (e.target.value.length === 1 && index < inputs.length - 1) {
+                            inputs[index + 1].focus();
+                        }
+                    });
+
+                    input.addEventListener('keydown', function(e) {
+                        if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                            inputs[index - 1].focus();
+                        }
+                    });
+                });
+            }
+
+            setupCodeInputs(document.getElementById('login-verification'));
+            setupCodeInputs(document.getElementById('register-verification'));
+
+            // Login flow
+            document.getElementById('login-send-code').addEventListener('click', function() {
+                const phone = loginIti.getNumber();
+                if (!loginIti.isValidNumber()) {
+                    alert('Veuillez entrer un numéro de téléphone valide');
+                    return;
+                }
+
+                // Simulate sending SMS code
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Envoi...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Code envoyé !';
+                    document.getElementById('login-verification').classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Envoyer le code';
+                        this.disabled = false;
+                    }, 2000);
+                }, 1500);
+            });
+
+            document.getElementById('login-verify').addEventListener('click', function() {
+                const codeInputs = document.querySelectorAll('#login-verification .code-input');
+                const code = Array.from(codeInputs).map(input => input.value).join('');
+                
+                if (code.length !== 6) {
+                    alert('Veuillez entrer le code complet');
+                    return;
+                }
+
+                // Simulate verification
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Vérification...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    // Redirect to profile
+                    window.location.href = 'profile.html';
+                }, 1500);
+            });
+
+            // Registration flow
+            document.getElementById('register-send-code').addEventListener('click', function() {
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const phone = registerIti.getNumber();
+                const country = document.getElementById('register-country').value;
+                const terms = document.getElementById('register-terms').checked;
+
+                if (!name || !email || !country || !terms) {
+                    alert('Veuillez remplir tous les champs obligatoires et accepter les conditions');
+                    return;
+                }
+
+                if (!registerIti.isValidNumber()) {
+                    alert('Veuillez entrer un numéro de téléphone valide');
+                    return;
+                }
+
+                // Simulate sending SMS code
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Création du compte...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Code envoyé !';
+                    document.getElementById('register-verification').classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Créer mon compte';
+                        this.disabled = false;
+                    }, 2000);
+                }, 1500);
+            });
+
+            document.getElementById('register-verify').addEventListener('click', function() {
+                const codeInputs = document.querySelectorAll('#register-verification .code-input');
+                const code = Array.from(codeInputs).map(input => input.value).join('');
+                
+                if (code.length !== 6) {
+                    alert('Veuillez entrer le code complet');
+                    return;
+                }
+
+                // Simulate verification
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Finalisation...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    document.getElementById('success-modal').classList.remove('hidden');
+                }, 1500);
+            });
+
+            // Success modal
+            document.getElementById('go-to-profile').addEventListener('click', function() {
+                window.location.href = 'profile.html';
+            });
+
+            // Resend code buttons
+            document.getElementById('login-resend').addEventListener('click', function() {
+                alert('Code renvoyé !');
+            });
+
+            document.getElementById('register-resend').addEventListener('click', function() {
+                alert('Code renvoyé !');
+            });
+        });
+    </script>
+</body>
+</html>

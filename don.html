@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faire un don - LaGuinèFé</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-red: #E4002B;
+            --color-yellow: #F7D81C;
+            --color-green: #009444;
+            --color-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .donation-amount {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .donation-amount:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .donation-amount.selected {
+            background: linear-gradient(135deg, var(--color-green), var(--color-yellow));
+            border-color: var(--color-green);
+            transform: scale(1.05);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-green), var(--color-yellow));
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 148, 68, 0.3);
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 20px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, var(--color-green), var(--color-yellow));
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 3rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .membership-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .membership-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .membership-card.premium {
+            border-color: var(--color-yellow);
+            background: linear-gradient(135deg, rgba(247, 216, 28, 0.1), rgba(0, 148, 68, 0.1));
+        }
+
+        .membership-card.premium::before {
+            content: '⭐';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .glass-card {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .floating-icon {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Icons -->
+    <div class="floating-icon" style="top: 10%; left: 10%; animation-delay: 0s;">
+        <i class="fas fa-heart"></i>
+    </div>
+    <div class="floating-icon" style="top: 20%; right: 15%; animation-delay: 2s;">
+        <i class="fas fa-hand-holding-heart"></i>
+    </div>
+    <div class="floating-icon" style="bottom: 20%; left: 20%; animation-delay: 4s;">
+        <i class="fas fa-donate"></i>
+    </div>
+    <div class="floating-icon" style="bottom: 10%; right: 10%; animation-delay: 1s;">
+        <i class="fas fa-users"></i>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-gradient-to-r from-green-600 via-yellow-500 to-red-600 backdrop-filter backdrop-blur-lg">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="accueil.html" class="flex items-center text-white font-bold text-xl">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        LaGuinèFé
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="accueil.html" class="text-white hover:text-gray-200 transition-colors">Accueil</a>
+                    <a href="profile.html" class="text-white hover:text-gray-200 transition-colors">Profil</a>
+                    <a href="login.html" class="bg-white text-green-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-semibold">
+                        Connexion
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Hero Section -->
+            <div class="text-center mb-12">
+                <h1 class="text-5xl font-bold text-white mb-6">
+                    Soutenez LaGuinèFé
+                </h1>
+                <p class="text-xl text-gray-200 max-w-3xl mx-auto mb-8">
+                    Votre contribution nous aide à développer des projets concrets pour la Guinée. 
+                    Ensemble, construisons un avenir meilleur pour notre pays.
+                </p>
+            </div>
+
+            <!-- Campaign Progress -->
+            <div class="glass-card p-8 mb-12">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-white mb-4">Campagne en cours</h2>
+                    <p class="text-gray-200 mb-6">Financement de projets éducatifs en Guinée</p>
+                </div>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div class="flex justify-between text-white mb-4">
+                        <span class="font-semibold">Collecté: 45,230 €</span>
+                        <span class="font-semibold">Objectif: 100,000 €</span>
+                    </div>
+                    <div class="progress-bar mb-6">
+                        <div class="progress-fill" style="width: 45.23%"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div>
+                            <div class="text-3xl font-bold text-green-400">324</div>
+                            <div class="text-gray-300">Donateurs</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-yellow-400">12</div>
+                            <div class="text-gray-300">Jours restants</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-red-400">5</div>
+                            <div class="text-gray-300">Projets financés</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Donation Section -->
+                <div class="glass-card p-8">
+                    <h2 class="text-3xl font-bold text-white mb-6 text-center">
+                        <i class="fas fa-heart text-red-400 mr-3"></i>
+                        Faire un don
+                    </h2>
+
+                    <!-- Donation Amounts -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                        <div class="donation-amount" data-amount="25">
+                            <div class="text-2xl font-bold">25€</div>
+                            <div class="text-sm opacity-80">Soutien</div>
+                        </div>
+                        <div class="donation-amount" data-amount="50">
+                            <div class="text-2xl font-bold">50€</div>
+                            <div class="text-sm opacity-80">Engagement</div>
+                        </div>
+                        <div class="donation-amount" data-amount="100">
+                            <div class="text-2xl font-bold">100€</div>
+                            <div class="text-sm opacity-80">Partenaire</div>
+                        </div>
+                        <div class="donation-amount" data-amount="250">
+                            <div class="text-2xl font-bold">250€</div>
+                            <div class="text-sm opacity-80">Ambassadeur</div>
+                        </div>
+                        <div class="donation-amount" data-amount="500">
+                            <div class="text-2xl font-bold">500€</div>
+                            <div class="text-sm opacity-80">Mécène</div>
+                        </div>
+                        <div class="donation-amount" data-amount="custom">
+                            <div class="text-2xl font-bold">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="text-sm opacity-80">Autre montant</div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Amount Input -->
+                    <div id="custom-amount-section" class="mb-6 hidden">
+                        <label class="block text-white mb-2">Montant personnalisé (€)</label>
+                        <input type="number" id="custom-amount" min="5" class="w-full p-3 rounded-lg bg-white/10 text-white border border-white/20 focus:border-green-500 focus:outline-none" placeholder="Entrez votre montant">
+                    </div>
+
+                    <!-- Donor Information -->
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <label class="block text-white mb-2">Nom complet *</label>
+                            <input type="text" id="donor-name" required class="w-full p-3 rounded-lg bg-white/10 text-white border border-white/20 focus:border-green-500 focus:outline-none" placeholder="Votre nom">
+                        </div>
+                        <div>
+                            <label class="block text-white mb-2">Email *</label>
+                            <input type="email" id="donor-email" required class="w-full p-3 rounded-lg bg-white/10 text-white border border-white/20 focus:border-green-500 focus:outline-none" placeholder="votre@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-white mb-2">Téléphone</label>
+                            <input type="tel" id="donor-phone" class="w-full p-3 rounded-lg bg-white/10 text-white border border-white/20 focus:border-green-500 focus:outline-none" placeholder="+33 6 12 34 56 78">
+                        </div>
+                        <div>
+                            <label class="block text-white mb-2">Message (optionnel)</label>
+                            <textarea id="donor-message" rows="3" class="w-full p-3 rounded-lg bg-white/10 text-white border border-white/20 focus:border-green-500 focus:outline-none" placeholder="Votre message de soutien..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Donation Options -->
+                    <div class="mb-6">
+                        <label class="flex items-center text-white mb-3">
+                            <input type="checkbox" id="monthly-donation" class="mr-3 w-4 h-4">
+                            <span>Don mensuel récurrent</span>
+                        </label>
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" id="anonymous-donation" class="mr-3 w-4 h-4">
+                            <span>Don anonyme</span>
+                        </label>
+                    </div>
+
+                    <!-- HelloAsso Integration -->
+                    <div class="text-center">
+                        <button id="donate-btn" class="btn-primary w-full text-lg">
+                            <i class="fas fa-heart mr-2"></i>
+                            Faire un don sécurisé
+                        </button>
+                        <p class="text-gray-300 text-sm mt-4">
+                            <i class="fas fa-shield-alt mr-1"></i>
+                            Paiement sécurisé via HelloAsso
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Membership Section -->
+                <div class="space-y-8">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-white mb-4">
+                            <i class="fas fa-users text-green-400 mr-3"></i>
+                            Adhésion
+                        </h2>
+                        <p class="text-gray-200">
+                            Rejoignez officiellement le mouvement LaGuinèFé
+                        </p>
+                    </div>
+
+                    <!-- Membership Cards -->
+                    <div class="space-y-6">
+                        <!-- Basic Membership -->
+                        <div class="membership-card">
+                            <h3 class="text-2xl font-bold text-white mb-4">Membre Sympathisant</h3>
+                            <div class="text-4xl font-bold text-green-400 mb-4">Gratuit</div>
+                            <ul class="text-gray-200 space-y-2 mb-6">
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Newsletter mensuelle</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Invitations aux événements</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Accès au forum communautaire</li>
+                            </ul>
+                            <button class="btn-primary w-full" onclick="joinMembership('basic')">
+                                Rejoindre gratuitement
+                            </button>
+                        </div>
+
+                        <!-- Premium Membership -->
+                        <div class="membership-card premium">
+                            <h3 class="text-2xl font-bold text-white mb-4">Membre Actif</h3>
+                            <div class="text-4xl font-bold text-yellow-400 mb-4">50€/an</div>
+                            <ul class="text-gray-200 space-y-2 mb-6">
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Tous les avantages Sympathisant</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Droit de vote aux assemblées</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Participation aux projets</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Carte de membre officielle</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Accès prioritaire aux formations</li>
+                            </ul>
+                            <button class="btn-primary w-full" onclick="joinMembership('premium')">
+                                Devenir membre actif
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Impact Section -->
+                    <div class="glass-card p-6">
+                        <h3 class="text-xl font-bold text-white mb-4">Votre impact</h3>
+                        <div class="space-y-3 text-gray-200">
+                            <div class="flex items-center">
+                                <i class="fas fa-graduation-cap text-green-400 mr-3"></i>
+                                <span>25€ = 1 kit scolaire complet</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-laptop text-blue-400 mr-3"></i>
+                                <span>100€ = Formation numérique pour 10 jeunes</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-seedling text-yellow-400 mr-3"></i>
+                                <span>250€ = Projet agricole communautaire</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-hospital text-red-400 mr-3"></i>
+                                <span>500€ = Équipement médical de base</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full p-8 text-center">
+            <div class="text-6xl text-green-400 mb-4">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-4">Merci pour votre soutien !</h2>
+            <p class="text-gray-200 mb-6">
+                Votre contribution fait la différence. Vous recevrez un reçu fiscal par email.
+            </p>
+            <button id="close-success" class="btn-primary">
+                Continuer
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectedAmount = null;
+
+            // Donation amount selection
+            document.querySelectorAll('.donation-amount').forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove previous selection
+                    document.querySelectorAll('.donation-amount').forEach(c => c.classList.remove('selected'));
+                    
+                    // Select current
+                    this.classList.add('selected');
+                    selectedAmount = this.dataset.amount;
+
+                    // Show/hide custom amount input
+                    const customSection = document.getElementById('custom-amount-section');
+                    if (selectedAmount === 'custom') {
+                        customSection.classList.remove('hidden');
+                    } else {
+                        customSection.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Donate button
+            document.getElementById('donate-btn').addEventListener('click', function() {
+                const name = document.getElementById('donor-name').value;
+                const email = document.getElementById('donor-email').value;
+                
+                if (!name || !email) {
+                    alert('Veuillez remplir les champs obligatoires (nom et email)');
+                    return;
+                }
+
+                if (!selectedAmount) {
+                    alert('Veuillez sélectionner un montant');
+                    return;
+                }
+
+                let amount = selectedAmount;
+                if (selectedAmount === 'custom') {
+                    amount = document.getElementById('custom-amount').value;
+                    if (!amount || amount < 5) {
+                        alert('Le montant minimum est de 5€');
+                        return;
+                    }
+                }
+
+                // Simulate HelloAsso integration
+                simulatePayment(amount, name, email);
+            });
+
+            // Simulate payment process
+            function simulatePayment(amount, name, email) {
+                // In real implementation, this would redirect to HelloAsso
+                // For demo purposes, we'll show a success message
+                
+                // Show loading
+                const btn = document.getElementById('donate-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Traitement...';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    
+                    // Show success modal
+                    document.getElementById('success-modal').classList.remove('hidden');
+                    
+                    // Reset form
+                    document.getElementById('donor-name').value = '';
+                    document.getElementById('donor-email').value = '';
+                    document.getElementById('donor-phone').value = '';
+                    document.getElementById('donor-message').value = '';
+                    document.querySelectorAll('.donation-amount').forEach(c => c.classList.remove('selected'));
+                    selectedAmount = null;
+                }, 2000);
+            }
+
+            // Close success modal
+            document.getElementById('close-success').addEventListener('click', function() {
+                document.getElementById('success-modal').classList.add('hidden');
+            });
+
+            // Membership functions
+            window.joinMembership = function(type) {
+                if (type === 'basic') {
+                    alert('Redirection vers le formulaire d\'inscription gratuite...');
+                    // Redirect to registration form
+                    window.location.href = 'register.html?membership=basic';
+                } else {
+                    alert('Redirection vers le paiement HelloAsso pour l\'adhésion premium...');
+                    // Redirect to HelloAsso payment for premium membership
+                    // In real implementation: window.location.href = 'https://www.helloasso.com/...';
+                }
+            };
+        });
+    </script>
+</body>
+</html>

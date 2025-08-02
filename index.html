@@ -38,10 +38,14 @@
 
         .menu-open {
             transform: translateX(0);
+            visibility: visible;
+            opacity: 1;
         }
 
         .menu-closed {
             transform: translateX(100%);
+            visibility: hidden;
+            opacity: 0;
         }
 
         .masonry-grid {
@@ -248,9 +252,68 @@
             left: 100%;
         }
 
-        /* Style pour le menu toggle */
+        /* Style pour le menu toggle - Amélioré */
         #menu-toggle {
             z-index: 60;
+            background: rgba(142, 193, 235, 0.9);
+            border: 2px solid var(--color-green);
+            border-radius: 8px;
+            padding: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #menu-toggle:hover {
+            background: var(--color-green);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        #menu-toggle svg {
+            transition: transform 0.3s ease;
+        }
+
+        #menu-toggle:hover svg {
+            transform: rotate(90deg);
+        }
+
+        /* Menu mobile amélioré */
+        #mobile-menu {
+            z-index: 998;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.98);
+            border-left: 4px solid var(--color-green);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        #mobile-menu.menu-open {
+            transform: translateX(0);
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #mobile-menu.menu-closed {
+            transform: translateX(100%);
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        /* Overlay pour le menu mobile */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Style pour le logo photo */
@@ -260,40 +323,637 @@
             border-radius: 50%;
             object-fit: cover;
             margin-right: 10px;
+            border: 2px solid var(--color-green);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-photo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Améliorations responsives */
+        @media (max-width: 640px) {
+            .logo-photo {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+            
+            #mobile-menu {
+                width: 280px;
+            }
+            
+            /* Textes responsifs */
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2;
+            }
+            
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            .text-xl {
+                font-size: 1.125rem !important;
+            }
+            
+            .text-2xl {
+                font-size: 1.25rem !important;
+            }
+            
+            /* Espacements responsifs */
+            .px-8 {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
+            .py-3 {
+                padding-top: 0.75rem !important;
+                padding-bottom: 0.75rem !important;
+            }
+            
+            /* Grilles responsives */
+            .grid {
+                gap: 1rem !important;
+            }
+            
+            .gap-12 {
+                gap: 2rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Navigation buttons sur mobile */
+            .swiper-button-next,
+            .swiper-button-prev {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .swiper-button-next:after,
+            .swiper-button-prev:after {
+                font-size: 14px;
+            }
+            
+            /* Pagination plus visible sur mobile */
+            .swiper-pagination-bullet {
+                width: 10px;
+                height: 10px;
+            }
+            
+            /* Menu mobile plus large sur tablette */
+            #mobile-menu {
+                width: 320px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            /* Améliorations pour desktop */
+            .hover\:scale-110:hover {
+                transform: scale(1.1);
+            }
+            
+            .hover\:rotate-3:hover {
+                transform: rotate(3deg);
+            }
+        }
+
+        /* Swiper responsif amélioré - Stable */
+        .swiper-container {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .swiper-slide {
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        @media (min-width: 640px) {
+            .swiper-slide {
+                height: 400px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .swiper-slide {
+                height: 450px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .swiper-slide {
+                height: 500px;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .swiper-slide {
+                height: 550px;
+            }
+        }
+
+        /* Stabilité des slides */
+        .swiper-slide .absolute {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Texte responsive dans les slides */
+        .swiper-slide h2 {
+            font-size: 1.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .swiper-slide p {
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        @media (min-width: 640px) {
+            .swiper-slide h2 {
+                font-size: 2rem;
+            }
+            .swiper-slide p {
+                font-size: 1.125rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .swiper-slide h2 {
+                font-size: 2.5rem;
+            }
+            .swiper-slide p {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .swiper-slide h2 {
+                font-size: 3rem;
+            }
+            .swiper-slide p {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Navigation Swiper améliorée */
+        .swiper-button-next,
+        .swiper-button-prev {
+            background: rgba(255, 255, 255, 0.9);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            color: var(--color-green);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: var(--color-green);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Pagination Swiper améliorée */
+        .swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.7);
+            opacity: 1;
+            width: 12px;
+            height: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--color-green);
+            border-color: white;
+            transform: scale(1.2);
+        }
+
+        /* Header sticky amélioré avec couleurs */
+        header {
+            background: linear-gradient(135deg, rgba(0, 148, 68, 0.95), rgba(247, 216, 28, 0.95), rgba(228, 0, 43, 0.95));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        header.scrolled {
+            background: linear-gradient(135deg, rgba(0, 148, 68, 0.98), rgba(247, 216, 28, 0.98), rgba(228, 0, 43, 0.98));
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Navigation links dans le header coloré */
+        header nav a {
+            color: rgb(7, 6, 6) !important;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        header nav a:hover {
+            color: rgba(255, 255, 255, 0.8) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Logo dans le header coloré */
+        header .logo-photo {
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animations d'entrée améliorées */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cards avec effet hover amélioré */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid transparent;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-green);
+        }
+
+        /* Boutons améliorés */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-green), var(--color-yellow));
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px; /* Accessibilité - taille minimum pour touch */
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 148, 68, 0.3);
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-primary:focus {
+            outline: 2px solid var(--color-green);
+            outline-offset: 2px;
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+
+        /* Amélioration des performances */
+        * {
+            box-sizing: border-box;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Préchargement des images critiques */
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            will-change: transform;
+        }
+
+        /* Optimisation des animations */
+        .fade-in,
+        .fade-in-up,
+        .btn-hover-effect,
+        .card-hover {
+            will-change: transform, opacity;
+        }
+
+        /* Réduction des animations sur les appareils avec préférence */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Améliorations pour les formulaires */
+        input, textarea, select {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: 2px solid var(--color-green);
+            outline-offset: 2px;
+            border-color: var(--color-green);
+            box-shadow: 0 0 0 3px rgba(0, 148, 68, 0.1);
+        }
+
+        /* Amélioration des liens */
+        a {
+            transition: all 0.3s ease;
+        }
+
+        /* Stabilité des grilles */
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .grid-cols-4 {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        /* Responsive grids */
+        @media (max-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .sm\:grid-cols-1 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .md\:grid-cols-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+
+        /* Amélioration de la stabilité des images */
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Conteneurs flexibles stables */
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        /* Amélioration des modales */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        /* Amélioration du z-index pour éviter les conflits */
+        .whatsapp-float {
+            z-index: 999;
+        }
+
+        #mobile-menu {
+            z-index: 998;
+        }
+
+        .menu-overlay {
+            z-index: 997;
+        }
+
+        header {
+            z-index: 996;
+        }
+
+        /* Citations responsives et visibles */
+        .quote-swiper {
+            padding: 20px 0;
+        }
+
+        .quote-swiper .swiper-slide {
+            height: auto;
+            min-height: 200px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quote-swiper blockquote {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            font-style: italic;
+            position: relative;
+            padding: 0 30px;
+        }
+
+        .quote-swiper blockquote::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            font-family: serif;
+        }
+
+        .quote-swiper blockquote::after {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            bottom: -40px;
+            right: -10px;
+            font-family: serif;
+        }
+
+        @media (min-width: 640px) {
+            .quote-swiper blockquote {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .quote-swiper blockquote {
+                font-size: 1.5rem;
+            }
+            
+            .quote-swiper .swiper-slide {
+                min-height: 250px;
+                padding: 40px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .quote-swiper blockquote {
+                font-size: 1.75rem;
+            }
+            
+            .quote-swiper .swiper-slide {
+                min-height: 300px;
+                padding: 60px;
+            }
+        }
+
+        /* Pagination pour les citations */
+        .quote-swiper .swiper-pagination {
+            position: relative;
+            margin-top: 30px;
+        }
+
+        .quote-swiper .swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 1;
+            width: 12px;
+            height: 12px;
+            margin: 0 6px;
+        }
+
+        .quote-swiper .swiper-pagination-bullet-active {
+            background: white;
+            transform: scale(1.3);
         }
     </style>
 </head>
 <body class="bg-gray-50">
+    <!-- Menu Overlay -->
+    <div id="menu-overlay" class="menu-overlay"></div>
+    
     <!-- WhatsApp Float Button -->
     <a href="https://wa.me/+224612345678" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     <!-- Header & Navigation -->
-    <header class="fixed w-full z-50">
+    <header class="fixed w-full z-50 transition-all duration-300 ease-in-out">
         <nav class="bg-white/80 backdrop-blur shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center">
                         <div class="flex items-center">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Flag_of_Guinea.svg/1200px-Flag_of_Guinea.svg.png" alt="Logo LaGuinèFé" class="logo-photo">
+                            <img src="images/4.png" alt="Logo LaGuinèFé" class="logo-photo">
                             <span class="text-xl font-bold text-gray-900">LaGuinèFé</span>
                         </div>
                     </div>
 
                     <!-- Desktop Menu -->
                     <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
-                        <a href="#home" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Accueil</a>
-                        <a href="#about" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">À propos</a>
-                        <a href="#actions" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Nos actions</a>
-                        <a href="#join" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Rejoindre</a>
-                        <a href="#news" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Actualités</a>
-                        <a href="#contact" class="text-gray-900 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                        <a href="#home" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">Accueil</a>
+                        <a href="#about" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">À propos</a>
+                        <a href="#actions" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">Nos actions</a>
+                        <a href="don.html" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">Faire un don</a>
+                        <a href="login.html" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">Rejoindre</a>
+                        <a href="#news" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">Actualités</a>
+                        <a href="#contact" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
                     </div>
 
-                    <!-- Mobile menu button -->
+                    <!-- Mobile menu button - Amélioré -->
                     <div class="-mr-2 flex items-center md:hidden">
-                        <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500" aria-expanded="false">
+                        <button id="menu-toggle" type="button" class="inline-flex items-center justify-center text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500" aria-expanded="false">
                             <span class="sr-only">Menu</span>
                             <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -320,7 +980,7 @@
                     </div>
                     <div class="mt-6">
                         <nav class="grid gap-y-4">
-                            <a href="#home" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                            <a href="index.html" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
                                 <i class="fas fa-home mr-3 text-green-600"></i> Accueil
                             </a>
                             <a href="#about" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
@@ -329,7 +989,10 @@
                             <a href="#actions" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
                                 <i class="fas fa-hands-helping mr-3 text-green-600"></i> Nos actions
                             </a>
-                            <a href="#join" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                            <a href="don.html" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
+                                <i class="fas fa-heart mr-3 text-green-600"></i> Faire un don
+                            </a>
+                            <a href="login.html" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
                                 <i class="fas fa-user-plus mr-3 text-green-600"></i> Rejoindre
                             </a>
                             <a href="#news" class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-green-600 hover:bg-gray-50">
@@ -374,11 +1037,13 @@
                 Rejoignez le mouvement patriotique de soutien au Général président Mamadi Doumbouya, nous souhaitons œuvrer pour le développement et la prospérité de la Guinée.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#join" class="px-8 py-3 bg-gradient-to-r from-green-600 to-red-600 text-white font-medium rounded-lg hover:from-green-700 hover:to-red-700 transition-colors pulse-animation btn-hover-effect">
+                <a href="login.html" class="btn-primary pulse-animation inline-flex items-center justify-center text-center">
+                    <i class="fas fa-users mr-2"></i>
                     Rejoignez-nous
                 </a>
-                <a href="#actions" class="px-8 py-3 bg-white text-green-600 font-medium rounded-lg hover:bg-gray-100 transition-colors border border-green-600 btn-hover-effect">
-                    Nos actions
+                <a href="don.html" class="px-8 py-3 bg-white text-green-600 font-medium rounded-lg hover:bg-gray-100 transition-all duration-300 border-2 border-green-600 btn-hover-effect inline-flex items-center justify-center hover:bg-green-600 hover:text-white">
+                    <i class="fas fa-heart mr-2"></i>
+                    Faire un don
                 </a>
             </div>
         </div>
@@ -442,10 +1107,10 @@
                 </p>
                 <!-- Ajout de boutons d'action -->
                 <div class="mt-6 flex flex-wrap gap-4">
-                    <a href="#about" class="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors">
+                    <a href="#about" class="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-all duration-300 hover:scale-105 hover:shadow-md">
                         <i class="fas fa-info-circle mr-2"></i> En savoir plus
                     </a>
-                    <a href="#join" class="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors">
+                    <a href="login.html" class="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-all duration-300 hover:scale-105 hover:shadow-md">
                         <i class="fas fa-user-plus mr-2"></i> Nous rejoindre
                     </a>
                 </div>
@@ -651,7 +1316,7 @@
                         <div class="p-6">
                             <h4 class="font-bold text-lg text-gray-900">Daouda Camara</h4>
                             <p class="text-green-600 font-medium">Responsable Santé</p>
-                            <p class="text-gray-700 mt-2">Médecin engagé dans l'amélioration du système de santé guinéen.</p>
+                            <p class="text-gray-700 mt-2">Ingénieur Agronome engagé dans l'écologie et l'Agroforesterie en guinée.</p>
                             <!-- Réseaux sociaux -->
                             <div class="mt-4 flex space-x-3">
                                 <a href="#" class="text-gray-400 hover:text-green-600">
@@ -673,9 +1338,10 @@
                                 <i class="fas fa-chart-line text-3xl text-white"></i>
                             </div>
                         </div>
+
                         <div class="p-6">
-                            <h4 class="font-bold text-lg text-gray-900">Fatoumata Binta Barry</h4>
-                            <p class="text-green-600 font-medium">Responsable Économie</p>
+                            <h4 class="font-bold text-lg text-gray-900">Maria Ramatoulaye Comnos</h4>
+                            <p class="text-green-600 font-medium">Responsable Administration</p>
                             <p class="text-gray-700 mt-2">Économiste spécialisée dans le développement local.</p>
                             <!-- Réseaux sociaux -->
                             <div class="mt-4 flex space-x-3">
@@ -689,7 +1355,6 @@
                                     <i class="fas fa-envelope"></i>
                                 </a>
                             </div>
-                        </div>
                     </div>
                 </div>
 
@@ -1356,7 +2021,7 @@
                 </div>
             </div>
 
-            <            <!-- Nouvelle actualité -->
+            <!-- Nouvelle actualité -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow transform transition-transform hover:-translate-y-1">
                 <div class="h-48 bg-gradient-to-r from-yellow-500 to-red-600 flex items-center justify-center text-white">
                     <i class="fas fa-graduation-cap text-6xl opacity-30"></i>
@@ -1718,15 +2383,102 @@
     <script src="Swiper.js"></script>
     <!-- JavaScript -->
     <script>
-        // Mobile Menu Toggle
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.remove('menu-closed');
-            document.getElementById('mobile-menu').classList.add('menu-open');
-        });
+        // Mobile Menu Toggle - Corrigé et simplifié
+        let isMenuOpen = false;
 
-        document.getElementById('menu-close').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.remove('menu-open');
-            document.getElementById('mobile-menu').classList.add('menu-closed');
+        function toggleMobileMenu() {
+            try {
+                const mobileMenu = document.getElementById('mobile-menu');
+                const menuOverlay = document.getElementById('menu-overlay');
+                const menuToggle = document.getElementById('menu-toggle');
+                
+                if (!mobileMenu || !menuOverlay || !menuToggle) return;
+
+                if (isMenuOpen) {
+                    // Fermer le menu
+                    mobileMenu.classList.remove('menu-open');
+                    mobileMenu.classList.add('menu-closed');
+                    menuOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    isMenuOpen = false;
+                } else {
+                    // Ouvrir le menu
+                    mobileMenu.classList.remove('menu-closed');
+                    mobileMenu.classList.add('menu-open');
+                    menuOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    menuToggle.setAttribute('aria-expanded', 'true');
+                    isMenuOpen = true;
+                }
+            } catch (error) {
+                console.warn('Erreur lors du toggle du menu mobile:', error);
+            }
+        }
+
+        function closeMobileMenu() {
+            try {
+                const mobileMenu = document.getElementById('mobile-menu');
+                const menuOverlay = document.getElementById('menu-overlay');
+                const menuToggle = document.getElementById('menu-toggle');
+                
+                if (mobileMenu && menuOverlay && menuToggle && isMenuOpen) {
+                    mobileMenu.classList.remove('menu-open');
+                    mobileMenu.classList.add('menu-closed');
+                    menuOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    isMenuOpen = false;
+                }
+            } catch (error) {
+                console.warn('Erreur lors de la fermeture du menu mobile:', error);
+            }
+        }
+
+        // Initialisation sécurisée des événements
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const menuOverlay = document.getElementById('menu-overlay');
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleMobileMenu();
+                });
+            }
+            
+            if (menuClose) {
+                menuClose.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeMobileMenu();
+                });
+            }
+            
+            if (menuOverlay) {
+                menuOverlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeMobileMenu();
+                });
+            }
+
+            // Fermer le menu avec la touche Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isMenuOpen) {
+                    closeMobileMenu();
+                }
+            });
+
+            // Fermer le menu lors du clic sur les liens de navigation
+            const mobileMenuLinks = document.querySelectorAll('#mobile-menu a[href^="#"]');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    setTimeout(closeMobileMenu, 300); // Délai pour permettre l'animation de scroll
+                });
+            });
         });
 
         // Video Modal
@@ -1742,52 +2494,148 @@
             document.body.style.overflow = 'auto';
         });
 
-        // Initialize Swiper
+        // Initialize Swiper - Amélioré et responsif avec gestion d'erreurs
         document.addEventListener('DOMContentLoaded', function() {
-            // Banner Swiper
-            const bannerSwiper = new Swiper('.swiper-container', {
+            // Vérifier si Swiper est disponible
+            if (typeof Swiper === 'undefined') {
+                console.warn('Swiper n\'est pas chargé');
+                return;
+            }
+
+            try {
+                // Banner Swiper
+                const bannerSwiperElement = document.querySelector('.swiper-container');
+                if (bannerSwiperElement) {
+                    const bannerSwiper = new Swiper('.swiper-container', {
                 loop: true,
                 autoplay: {
                     delay: 5000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
                 },
                 pagination: {
                     el: '.swiper-pagination',
                     clickable: true,
+                    dynamicBullets: true,
                 },
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
                 },
+                effect: 'slide',
+                speed: 800,
+                grabCursor: true,
+                keyboard: {
+                    enabled: true,
+                },
+                a11y: {
+                    enabled: true,
+                },
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                    768: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 1,
+                        spaceBetween: 30,
+                    },
+                },
             });
+                }
 
-            // Testimonial Swiper
-            const testimonialSwiper = new Swiper('.testimonial-swiper', {
+                // Testimonial Swiper
+                const testimonialSwiperElement = document.querySelector('.testimonial-swiper');
+                if (testimonialSwiperElement) {
+                    const testimonialSwiper = new Swiper('.testimonial-swiper', {
                 loop: true,
                 autoplay: {
                     delay: 6000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
                 },
                 pagination: {
-                    el: '.swiper-pagination',
+                    el: '.testimonial-swiper .swiper-pagination',
                     clickable: true,
+                    dynamicBullets: true,
                 },
                 spaceBetween: 30,
+                grabCursor: true,
+                keyboard: {
+                    enabled: true,
+                },
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1,
+                        spaceBetween: 15,
+                    },
+                    768: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 1,
+                        spaceBetween: 30,
+                    },
+                },
             });
+                }
 
-            // Quote Swiper
-            const quoteSwiper = new Swiper('.quote-swiper', {
+                // Quote Swiper
+                const quoteSwiperElement = document.querySelector('.quote-swiper');
+                if (quoteSwiperElement) {
+                    const quoteSwiper = new Swiper('.quote-swiper', {
                 loop: true,
                 autoplay: {
                     delay: 7000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
                 },
                 pagination: {
-                    el: '.swiper-pagination',
+                    el: '.quote-swiper .swiper-pagination',
                     clickable: true,
+                    dynamicBullets: true,
                 },
                 effect: 'fade',
                 fadeEffect: {
                     crossFade: true
                 },
+                speed: 1000,
+                grabCursor: true,
+                keyboard: {
+                    enabled: true,
+                },
             });
+                }
+
+                // Pause autoplay when page is not visible - avec gestion d'erreurs
+                document.addEventListener('visibilitychange', function() {
+                    try {
+                        const bannerSwiper = document.querySelector('.swiper-container')?.swiper;
+                        const testimonialSwiper = document.querySelector('.testimonial-swiper')?.swiper;
+                        const quoteSwiper = document.querySelector('.quote-swiper')?.swiper;
+
+                        if (document.hidden) {
+                            bannerSwiper?.autoplay?.stop();
+                            testimonialSwiper?.autoplay?.stop();
+                            quoteSwiper?.autoplay?.stop();
+                        } else {
+                            bannerSwiper?.autoplay?.start();
+                            testimonialSwiper?.autoplay?.start();
+                            quoteSwiper?.autoplay?.start();
+                        }
+                    } catch (error) {
+                        console.warn('Erreur lors de la gestion de l\'autoplay:', error);
+                    }
+                });
+
+            } catch (error) {
+                console.warn('Erreur lors de l\'initialisation des sliders:', error);
+            }
         });
 
         // Smooth Scroll for Anchor Links
@@ -1797,8 +2645,7 @@
 
                 // Close mobile menu if open
                 if (document.getElementById('mobile-menu').classList.contains('menu-open')) {
-                    document.getElementById('mobile-menu').classList.remove('menu-open');
-                    document.getElementById('mobile-menu').classList.add('menu-closed');
+                    closeMobileMenu();
                 }
 
                 const targetId = this.getAttribute('href');
@@ -1833,23 +2680,60 @@
             });
         });
 
-        // Fade-in Animation for Sections
+        // Fade-in Animation for Sections - Amélioré
         document.addEventListener('DOMContentLoaded', function() {
-            const fadeElements = document.querySelectorAll('.fade-in');
+            const fadeElements = document.querySelectorAll('.fade-in, .fade-in-up');
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-fadeIn');
+                        if (entry.target.classList.contains('fade-in-up')) {
+                            entry.target.classList.add('visible');
+                        } else {
+                            entry.target.classList.add('animate-fadeIn');
+                        }
                         observer.unobserve(entry.target);
                     }
                 });
             }, {
-                threshold: 0.1
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             });
 
             fadeElements.forEach(element => {
                 observer.observe(element);
+            });
+
+            // Animation pour les compteurs
+            const counters = document.querySelectorAll('.counter');
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        const increment = target / 100;
+                        let current = 0;
+                        
+                        const updateCounter = () => {
+                            if (current < target) {
+                                current += increment;
+                                counter.textContent = Math.ceil(current).toLocaleString();
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.textContent = target.toLocaleString();
+                            }
+                        };
+                        
+                        updateCounter();
+                        counterObserver.unobserve(counter);
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+
+            counters.forEach(counter => {
+                counterObserver.observe(counter);
             });
         });
 
@@ -1911,76 +2795,164 @@
             });
         });
 
-        // Sticky Header
+        // Sticky Header - Amélioré
+        let lastScrollTop = 0;
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('shadow-md');
-                header.querySelector('nav').classList.add('py-2');
-                header.querySelector('nav').classList.remove('py-4');
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+                header.classList.add('shadow-lg');
             } else {
-                header.classList.remove('shadow-md');
-                header.querySelector('nav').classList.remove('py-2');
-                header.querySelector('nav').classList.add('py-4');
+                header.classList.remove('scrolled');
+                header.classList.remove('shadow-lg');
             }
-        });
+            
+            // Hide/show header on scroll
+            if (currentScroll > lastScrollTop && currentScroll > 100) {
+                // Scrolling down
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        }, { passive: true });
 
-        // Initialiser les animations GSAP
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animation du header
-            gsap.from("header", {
-                y: -100,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out"
-            });
-
-            // Animation du titre principal
-            gsap.from("#home h1", {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                delay: 0.5,
-                ease: "power3.out"
-            });
-
-            // Animation du sous-titre
-            gsap.from("#home p.text-xl", {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                delay: 0.7,
-                ease: "power3.out"
-            });
-
-            // Animation des boutons
-            gsap.from("#home .flex.flex-col", {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                delay: 0.9,
-                ease: "power3.out"
-            });
-
-            // Animation des sections au scroll
-            gsap.registerPlugin(ScrollTrigger);
-
-            gsap.utils.toArray("section").forEach((section, i) => {
-                if (i === 0) return; // Skip first section (home)
-
-                ScrollTrigger.create({
-                    trigger: section,
-                    start: "top 80%",
-                    onEnter: () => {
-                        gsap.to(section, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 1,
-                            ease: "power3.out"
-                        });
-                    },
-                    once: true
+        // Optimisation des performances - Chargement paresseux
+        function lazyLoadImages() {
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
                 });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        }
+
+        // Initialiser les animations GSAP - Optimisé
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier si GSAP est disponible
+            if (typeof gsap !== 'undefined') {
+                // Animation du header
+                gsap.from("header", {
+                    y: -100,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                });
+
+                // Animation du titre principal
+                gsap.from("#home h1", {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    delay: 0.5,
+                    ease: "power3.out"
+                });
+
+                // Animation du sous-titre
+                gsap.from("#home p.text-xl", {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    delay: 0.7,
+                    ease: "power3.out"
+                });
+
+                // Animation des boutons
+                gsap.from("#home .flex.flex-col", {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    delay: 0.9,
+                    ease: "power3.out"
+                });
+
+                // Animation des sections au scroll
+                if (typeof ScrollTrigger !== 'undefined') {
+                    gsap.registerPlugin(ScrollTrigger);
+
+                    gsap.utils.toArray("section").forEach((section, i) => {
+                        if (i === 0) return; // Skip first section (home)
+
+                        ScrollTrigger.create({
+                            trigger: section,
+                            start: "top 80%",
+                            onEnter: () => {
+                                gsap.to(section, {
+                                    opacity: 1,
+                                    y: 0,
+                                    duration: 1,
+                                    ease: "power3.out"
+                                });
+                            },
+                            once: true
+                        });
+                    });
+                }
+            }
+
+            // Initialiser le chargement paresseux
+            lazyLoadImages();
+
+            // Optimisation des performances - Debounce pour le scroll
+            let ticking = false;
+            function updateOnScroll() {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        // Logique de scroll ici
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+
+            // Vérification de l'intégrité des éléments critiques
+            function checkCriticalElements() {
+                const criticalElements = [
+                    'menu-toggle',
+                    'mobile-menu',
+                    'menu-overlay',
+                    'menu-close'
+                ];
+
+                criticalElements.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (!element) {
+                        console.warn(`Élément critique manquant: ${id}`);
+                    }
+                });
+
+                // Vérifier les sliders
+                const sliders = ['.swiper-container', '.testimonial-swiper', '.quote-swiper'];
+                sliders.forEach(selector => {
+                    const slider = document.querySelector(selector);
+                    if (!slider) {
+                        console.warn(`Slider manquant: ${selector}`);
+                    }
+                });
+            }
+
+            // Exécuter la vérification
+            checkCriticalElements();
+
+            // Ajouter un gestionnaire d'erreurs global
+            window.addEventListener('error', function(e) {
+                console.warn('Erreur JavaScript détectée:', e.error);
+            });
+
+            // Ajouter un gestionnaire pour les promesses rejetées
+            window.addEventListener('unhandledrejection', function(e) {
+                console.warn('Promesse rejetée non gérée:', e.reason);
             });
         });
     </script>
